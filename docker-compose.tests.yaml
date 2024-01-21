@@ -1,0 +1,27 @@
+version: '3.9'
+name: go-boiler-int-test
+services:
+  rabbitmq-test:
+    container_name: 'main-db-rmq-test'
+    image: 'rabbitmq:3-management'
+    ports:
+      - 5692:5672
+      - 15692:15672
+    environment:
+      RABBITMQ_DEFAULT_VHOST: go-boiler
+      RABBITMQ_DEFAULT_USER: go-boiler-user
+      RABBITMQ_DEFAULT_PASS: go-boiler-password
+
+  main-db-postgres-test:
+    container_name: 'main-db-postgres-test'
+    restart: always
+    image: 'postgres:12.9'
+    volumes:
+      - ./docker/main-db/init.d:/docker-entrypoint-initdb.d
+    ports:
+      - 5452:5432
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: go-boiler-main-db

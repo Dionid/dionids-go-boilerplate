@@ -1,0 +1,32 @@
+{
+  "version": "0.2",
+  "language": "en,ru",
+  "words": [
+    "Insertable",
+    "dioq",
+    "inttests",
+    "Dionid",
+    "sqlx",
+    "jmoiron",
+    "struct",
+    "Sprintf",
+    "foreignkey",
+    "procs",
+    "Errorf",
+    "sqlstr",
+    "sqlserver",
+    "logf",
+    "logerror",
+    "Unmarshal",
+    "unmarshals",
+    "Rowx",
+    "Queryx",
+    "rabbitmq",
+    "amqp"
+  ],
+  "flagWords": [],
+  "ignorePaths": [
+    "go.mod",
+    "go.sum"
+  ]
+}

@@ -1,0 +1,3 @@
+src: ./pkg/dioq/xo
+out: ./dbs/maindb
+schema: public

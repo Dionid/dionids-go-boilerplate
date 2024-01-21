@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package go_boiler.calls;
+
+option go_package = "/proto";
+
+import "google/api/annotations.proto";
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/empty.proto";
+import "types.proto";
+import "buf/validate/validate.proto";
+
+// # SignInCall
+
+message SignInCallRequest {
+    string name = 1;
+    string id = 2;
+    df.types.Meta meta = 3;
+
+    message Params {
+        string email = 1;
+        string password = 2;
+    }
+
+    Params params = 4;
+}
+
+message SignInCallResponse {
+    string id = 1;
+
+    message Result {
+        message Success {
+            string token = 1;
+        }
+
+        oneof result {
+            Success success = 1;
+            df.types.Failure failure = 2;
+        }
+    }
+
+    Result result = 2;
+}
+
+// # MainApi
+
+service MainApi {
+    rpc SignIn(SignInCallRequest) returns (SignInCallResponse) {
+        option (google.api.http) = { post: "/api/v1/auth/sign-in", body: "*"  };
+    }
+ }
