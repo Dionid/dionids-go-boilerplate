@@ -1,4 +1,4 @@
-package features_test
+package fsignup_test
 
 import (
 	"context"
@@ -6,12 +6,13 @@ import (
 
 	"github.com/Dionid/go-boiler/api/v1/go/proto"
 	"github.com/Dionid/go-boiler/features"
+	fsignup "github.com/Dionid/go-boiler/features/sign-up"
 	inttests "github.com/Dionid/go-boiler/internal/int-tests"
 	"github.com/google/uuid"
 )
 
-func TestIntSignIn(t *testing.T) {
-	t.Run("SignIn 1", func(t *testing.T) {
+func TestIntSignUp(t *testing.T) {
+	t.Run("SignUp 1", func(t *testing.T) {
 		t.Parallel()
 
 		ctx := context.Background()
@@ -34,23 +35,23 @@ func TestIntSignIn(t *testing.T) {
 		}
 
 		featureDeps := &features.Deps{
-			testDeps.Logger,
-			testDeps.MainDbConnection,
-			testDeps.MainDbQueries,
-			testDeps.FeaturesConfig,
-			testDeps.RmqTransport,
+			Logger:        testDeps.Logger,
+			MainDb:        testDeps.MainDbConnection,
+			MainDbQueries: testDeps.MainDbQueries,
+			Config:        testDeps.FeaturesConfig,
+			RmqT:          testDeps.RmqTransport,
 		}
 
-		request := &proto.SignInCallRequest{
+		request := &proto.SignUpCallRequest{
 			Name: "SignIn",
 			Id:   uuid.New().String(),
-			Params: &proto.SignInCallRequest_Params{
+			Params: &proto.SignUpCallRequest_Params{
 				Email:    seed.User.Email,
 				Password: "1234",
 			},
 		}
 
-		resp, err := features.SignIn(ctx, featureDeps, request)
+		resp, err := fsignup.SignUp(ctx, featureDeps, request)
 		if err != nil {
 			t.Fatal(err)
 		}

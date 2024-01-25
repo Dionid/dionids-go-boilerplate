@@ -35,7 +35,6 @@ func initFirstAdmin(ctx context.Context, config *Config, db *sqlx.DB) terrors.Er
 
 	newUser := maindb.NewInsertableUserModel(
 		uuid.New(),
-		"Admin",
 		email,
 		string(hashedPassword),
 		time.Now(),

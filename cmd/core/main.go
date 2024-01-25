@@ -19,6 +19,7 @@ import (
 	"github.com/Dionid/go-boiler/dbs/maindb"
 
 	"github.com/Dionid/go-boiler/features"
+	fsignin "github.com/Dionid/go-boiler/features/sign-in"
 	"github.com/Dionid/go-boiler/pkg/terrors"
 	"github.com/jmoiron/sqlx"
 	"go.uber.org/zap"
@@ -121,7 +122,7 @@ func main() {
 				return nil, terrors.NewPrivateError("failed to unmarshal request")
 			}
 
-			result, err := features.SignIn(ctx, deps, request)
+			result, err := fsignin.SignIn(ctx, deps, request)
 			if err != nil {
 				return nil, err
 			}

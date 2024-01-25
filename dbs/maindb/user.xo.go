@@ -16,7 +16,6 @@ import (
 type UserTableSt struct {
 	dioq.Table
 	ID        dioq.Column[uuid.UUID]
-	Name      dioq.Column[string]
 	Email     dioq.Column[string]
 	Password  dioq.Column[string]
 	CreatedAt dioq.Column[time.Time]
@@ -27,7 +26,6 @@ type UserTableSt struct {
 func (t UserTableSt) As(alias string) UserTableSt {
 	t.Table.TableAlias = fmt.Sprintf(`"%s"`, alias)
 	t.ID = dioq.NewColumnWithAlias[uuid.UUID](t.Table, t.ID.ColumnName, t.ID.ColumnAlias)
-	t.Name = dioq.NewColumnWithAlias[string](t.Table, t.Name.ColumnName, t.Name.ColumnAlias)
 	t.Email = dioq.NewColumnWithAlias[string](t.Table, t.Email.ColumnName, t.Email.ColumnAlias)
 	t.Password = dioq.NewColumnWithAlias[string](t.Table, t.Password.ColumnName, t.Password.ColumnAlias)
 	t.CreatedAt = dioq.NewColumnWithAlias[time.Time](t.Table, t.CreatedAt.ColumnName, t.CreatedAt.ColumnAlias)
@@ -45,7 +43,6 @@ var UserTableBase = dioq.Table{
 var UserTable = UserTableSt{
 	Table:     UserTableBase,
 	ID:        dioq.NewColumn[uuid.UUID](UserTableBase, `"id"`),
-	Name:      dioq.NewColumn[string](UserTableBase, `"name"`),
 	Email:     dioq.NewColumn[string](UserTableBase, `"email"`),
 	Password:  dioq.NewColumn[string](UserTableBase, `"password"`),
 	CreatedAt: dioq.NewColumn[time.Time](UserTableBase, `"created_at"`),
@@ -57,7 +54,6 @@ var UserTable = UserTableSt{
 
 type (
 	UserIDCT        = uuid.UUID
-	UserNameCT      = string
 	UserEmailCT     = string
 	UserPasswordCT  = string
 	UserCreatedAtCT = time.Time
@@ -67,7 +63,6 @@ type (
 
 const (
 	UserIDCN        = `"id"`
-	UserNameCN      = `"name"`
 	UserEmailCN     = `"email"`
 	UserPasswordCN  = `"password"`
 	UserCreatedAtCN = `"created_at"`
@@ -79,7 +74,6 @@ const (
 
 type UserModel struct {
 	ID        uuid.UUID    `json:"id" db:"id"`
-	Name      string       `json:"name" db:"name"`
 	Email     string       `json:"email" db:"email"`
 	Password  string       `json:"password" db:"password"`
 	CreatedAt time.Time    `json:"created_at" db:"created_at"`
@@ -89,7 +83,6 @@ type UserModel struct {
 
 func NewUserModel(
 	ID uuid.UUID,
-	Name string,
 	Email string,
 	Password string,
 	CreatedAt time.Time,
@@ -98,7 +91,6 @@ func NewUserModel(
 ) *UserModel {
 	return &UserModel{
 		ID:        ID,
-		Name:      Name,
 		Email:     Email,
 		Password:  Password,
 		CreatedAt: CreatedAt,
@@ -111,7 +103,6 @@ func NewUserModel(
 
 type InsertableUserModel struct {
 	ID        uuid.UUID    `json:"id" db:"id"`
-	Name      string       `json:"name" db:"name"`
 	Email     string       `json:"email" db:"email"`
 	Password  string       `json:"password" db:"password"`
 	CreatedAt time.Time    `json:"created_at" db:"created_at"`
@@ -121,7 +112,6 @@ type InsertableUserModel struct {
 
 func NewInsertableUserModel(
 	ID uuid.UUID,
-	Name string,
 	Email string,
 	Password string,
 	CreatedAt time.Time,
@@ -130,7 +120,6 @@ func NewInsertableUserModel(
 ) *InsertableUserModel {
 	return &InsertableUserModel{
 		ID:        ID,
-		Name:      Name,
 		Email:     Email,
 		Password:  Password,
 		CreatedAt: CreatedAt,
@@ -157,7 +146,6 @@ func InsertIntoUserTable(
 
 		valueSetList[i] = dioq.ValueSet(
 			dioq.VALUE(UserTable.ID, model.ID),
-			dioq.VALUE(UserTable.Name, model.Name),
 			dioq.VALUE(UserTable.Email, model.Email),
 			dioq.VALUE(UserTable.Password, model.Password),
 			dioq.VALUE(UserTable.CreatedAt, model.CreatedAt),
@@ -170,7 +158,6 @@ func InsertIntoUserTable(
 		dioq.INSERT_INTO(
 			UserTable,
 			UserTable.ID,
-			UserTable.Name,
 			UserTable.Email,
 			UserTable.Password,
 			UserTable.CreatedAt,
@@ -206,7 +193,6 @@ func InsertIntoUserTableReturningAll(
 
 		valueSetList[i] = dioq.ValueSet(
 			dioq.VALUE(UserTable.ID, model.ID),
-			dioq.VALUE(UserTable.Name, model.Name),
 			dioq.VALUE(UserTable.Email, model.Email),
 			dioq.VALUE(UserTable.Password, model.Password),
 			dioq.VALUE(UserTable.CreatedAt, model.CreatedAt),
@@ -219,7 +205,6 @@ func InsertIntoUserTableReturningAll(
 		dioq.INSERT_INTO(
 			UserTable,
 			UserTable.ID,
-			UserTable.Name,
 			UserTable.Email,
 			UserTable.Password,
 			UserTable.CreatedAt,
@@ -239,7 +224,6 @@ func InsertIntoUserTableReturningAll(
 	var model UserModel
 	err = row.Scan(
 		&model.ID,
-		&model.Name,
 		&model.Email,
 		&model.Password,
 		&model.CreatedAt,
@@ -257,7 +241,6 @@ func InsertIntoUserTableReturningAll(
 
 type UpdatableUserModel struct {
 	ID        *uuid.UUID    `json:"id" db:"id"`
-	Name      *string       `json:"name" db:"name"`
 	Email     *string       `json:"email" db:"email"`
 	Password  *string       `json:"password" db:"password"`
 	CreatedAt *time.Time    `json:"created_at" db:"created_at"`
@@ -267,7 +250,6 @@ type UpdatableUserModel struct {
 
 func NewUpdatableUserModel(
 	ID *uuid.UUID,
-	Name *string,
 	Email *string,
 	Password *string,
 	CreatedAt *time.Time,
@@ -276,7 +258,6 @@ func NewUpdatableUserModel(
 ) *UpdatableUserModel {
 	return &UpdatableUserModel{
 		ID,
-		Name,
 		Email,
 		Password,
 		CreatedAt,
@@ -309,7 +290,6 @@ func SelectUserTableByEmail(
 	model := &UserModel{}
 	err = row.Scan(
 		&model.ID,
-		&model.Name,
 		&model.Email,
 		&model.Password,
 		&model.CreatedAt,
@@ -362,7 +342,6 @@ func InsertIntoUserTableReturningEmail(
 
 		valueSetList[i] = dioq.ValueSet(
 			dioq.VALUE(UserTable.ID, model.ID),
-			dioq.VALUE(UserTable.Name, model.Name),
 			dioq.VALUE(UserTable.Email, model.Email),
 			dioq.VALUE(UserTable.Password, model.Password),
 			dioq.VALUE(UserTable.CreatedAt, model.CreatedAt),
@@ -375,7 +354,6 @@ func InsertIntoUserTableReturningEmail(
 		dioq.INSERT_INTO(
 			UserTable,
 			UserTable.ID,
-			UserTable.Name,
 			UserTable.Email,
 			UserTable.Password,
 			UserTable.CreatedAt,
@@ -415,9 +393,6 @@ func UpdateUserTableByEmail(
 
 	if updatableModel.ID != nil {
 		valuesSetList = append(valuesSetList, dioq.SET_VALUE(UserTable.ID, *updatableModel.ID))
-	}
-	if updatableModel.Name != nil {
-		valuesSetList = append(valuesSetList, dioq.SET_VALUE(UserTable.Name, *updatableModel.Name))
 	}
 	if updatableModel.Email != nil {
 		valuesSetList = append(valuesSetList, dioq.SET_VALUE(UserTable.Email, *updatableModel.Email))
@@ -477,7 +452,6 @@ func SelectUserTableByID(
 	model := &UserModel{}
 	err = row.Scan(
 		&model.ID,
-		&model.Name,
 		&model.Email,
 		&model.Password,
 		&model.CreatedAt,
@@ -530,7 +504,6 @@ func InsertIntoUserTableReturningID(
 
 		valueSetList[i] = dioq.ValueSet(
 			dioq.VALUE(UserTable.ID, model.ID),
-			dioq.VALUE(UserTable.Name, model.Name),
 			dioq.VALUE(UserTable.Email, model.Email),
 			dioq.VALUE(UserTable.Password, model.Password),
 			dioq.VALUE(UserTable.CreatedAt, model.CreatedAt),
@@ -543,7 +516,6 @@ func InsertIntoUserTableReturningID(
 		dioq.INSERT_INTO(
 			UserTable,
 			UserTable.ID,
-			UserTable.Name,
 			UserTable.Email,
 			UserTable.Password,
 			UserTable.CreatedAt,
@@ -583,9 +555,6 @@ func UpdateUserTableByID(
 
 	if updatableModel.ID != nil {
 		valuesSetList = append(valuesSetList, dioq.SET_VALUE(UserTable.ID, *updatableModel.ID))
-	}
-	if updatableModel.Name != nil {
-		valuesSetList = append(valuesSetList, dioq.SET_VALUE(UserTable.Name, *updatableModel.Name))
 	}
 	if updatableModel.Email != nil {
 		valuesSetList = append(valuesSetList, dioq.SET_VALUE(UserTable.Email, *updatableModel.Email))

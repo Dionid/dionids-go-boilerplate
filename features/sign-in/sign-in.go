@@ -1,15 +1,16 @@
-package features
+package fsignin
 
 import (
 	"context"
 
 	"github.com/Dionid/go-boiler/api/v1/go/proto"
+	"github.com/Dionid/go-boiler/features"
 	"github.com/Dionid/go-boiler/internal/auth"
 	"github.com/Dionid/go-boiler/pkg/terrors"
 	"golang.org/x/crypto/bcrypt"
 )
 
-func SignIn(ctx context.Context, deps *Deps, request *proto.SignInCallRequest) (*proto.SignInCallResponse, terrors.Error) {
+func SignIn(ctx context.Context, deps *features.Deps, request *proto.SignInCallRequest) (*proto.SignInCallResponse, terrors.Error) {
 	// # Validate request
 	if request.Params.Email == "" {
 		return nil, terrors.NewValidationError("NewValidationError", nil)

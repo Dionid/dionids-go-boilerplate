@@ -33,7 +33,6 @@ func Seed(
 
 	userModel := maindb.NewInsertableUserModel(
 		uuid.New(),
-		"Admin",
 		email,
 		string(hashedPassword),
 		time.Now(),

@@ -17,6 +17,7 @@ sql:
     queries:
       - "./dbs/maindb"
       - "./features/*.maindb.sql"
+      - "./features/**/*.maindb.sql"
     schema: "./dbs/maindb/schema.sql"
     gen:
       go:

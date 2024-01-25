@@ -150,6 +150,132 @@ func (x *SignInCallResponse) GetResult() *SignInCallResponse_Result {
 	return nil
 }
 
+type SignUpCallRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name   string                    `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Id     string                    `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+	Meta   *Meta                     `protobuf:"bytes,3,opt,name=meta,proto3" json:"meta,omitempty"`
+	Params *SignUpCallRequest_Params `protobuf:"bytes,4,opt,name=params,proto3" json:"params,omitempty"`
+}
+
+func (x *SignUpCallRequest) Reset() {
+	*x = SignUpCallRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_calls_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SignUpCallRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SignUpCallRequest) ProtoMessage() {}
+
+func (x *SignUpCallRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_calls_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SignUpCallRequest.ProtoReflect.Descriptor instead.
+func (*SignUpCallRequest) Descriptor() ([]byte, []int) {
+	return file_calls_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *SignUpCallRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *SignUpCallRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *SignUpCallRequest) GetMeta() *Meta {
+	if x != nil {
+		return x.Meta
+	}
+	return nil
+}
+
+func (x *SignUpCallRequest) GetParams() *SignUpCallRequest_Params {
+	if x != nil {
+		return x.Params
+	}
+	return nil
+}
+
+type SignUpCallResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id     string                     `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Result *SignUpCallResponse_Result `protobuf:"bytes,2,opt,name=result,proto3" json:"result,omitempty"`
+}
+
+func (x *SignUpCallResponse) Reset() {
+	*x = SignUpCallResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_calls_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SignUpCallResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SignUpCallResponse) ProtoMessage() {}
+
+func (x *SignUpCallResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_calls_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SignUpCallResponse.ProtoReflect.Descriptor instead.
+func (*SignUpCallResponse) Descriptor() ([]byte, []int) {
+	return file_calls_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *SignUpCallResponse) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *SignUpCallResponse) GetResult() *SignUpCallResponse_Result {
+	if x != nil {
+		return x.Result
+	}
+	return nil
+}
+
 type SignInCallRequest_Params struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -162,7 +288,7 @@ type SignInCallRequest_Params struct {
 func (x *SignInCallRequest_Params) Reset() {
 	*x = SignInCallRequest_Params{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_calls_proto_msgTypes[2]
+		mi := &file_calls_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -175,7 +301,7 @@ func (x *SignInCallRequest_Params) String() string {
 func (*SignInCallRequest_Params) ProtoMessage() {}
 
 func (x *SignInCallRequest_Params) ProtoReflect() protoreflect.Message {
-	mi := &file_calls_proto_msgTypes[2]
+	mi := &file_calls_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -220,7 +346,7 @@ type SignInCallResponse_Result struct {
 func (x *SignInCallResponse_Result) Reset() {
 	*x = SignInCallResponse_Result{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_calls_proto_msgTypes[3]
+		mi := &file_calls_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -233,7 +359,7 @@ func (x *SignInCallResponse_Result) String() string {
 func (*SignInCallResponse_Result) ProtoMessage() {}
 
 func (x *SignInCallResponse_Result) ProtoReflect() protoreflect.Message {
-	mi := &file_calls_proto_msgTypes[3]
+	mi := &file_calls_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -297,7 +423,7 @@ type SignInCallResponse_Result_Success struct {
 func (x *SignInCallResponse_Result_Success) Reset() {
 	*x = SignInCallResponse_Result_Success{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_calls_proto_msgTypes[4]
+		mi := &file_calls_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -310,7 +436,7 @@ func (x *SignInCallResponse_Result_Success) String() string {
 func (*SignInCallResponse_Result_Success) ProtoMessage() {}
 
 func (x *SignInCallResponse_Result_Success) ProtoReflect() protoreflect.Message {
-	mi := &file_calls_proto_msgTypes[4]
+	mi := &file_calls_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -327,6 +453,189 @@ func (*SignInCallResponse_Result_Success) Descriptor() ([]byte, []int) {
 }
 
 func (x *SignInCallResponse_Result_Success) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+type SignUpCallRequest_Params struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Email    string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	Password string `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+}
+
+func (x *SignUpCallRequest_Params) Reset() {
+	*x = SignUpCallRequest_Params{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_calls_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SignUpCallRequest_Params) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SignUpCallRequest_Params) ProtoMessage() {}
+
+func (x *SignUpCallRequest_Params) ProtoReflect() protoreflect.Message {
+	mi := &file_calls_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SignUpCallRequest_Params.ProtoReflect.Descriptor instead.
+func (*SignUpCallRequest_Params) Descriptor() ([]byte, []int) {
+	return file_calls_proto_rawDescGZIP(), []int{2, 0}
+}
+
+func (x *SignUpCallRequest_Params) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *SignUpCallRequest_Params) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+type SignUpCallResponse_Result struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Result:
+	//
+	//	*SignUpCallResponse_Result_Success_
+	//	*SignUpCallResponse_Result_Failure
+	Result isSignUpCallResponse_Result_Result `protobuf_oneof:"result"`
+}
+
+func (x *SignUpCallResponse_Result) Reset() {
+	*x = SignUpCallResponse_Result{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_calls_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SignUpCallResponse_Result) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SignUpCallResponse_Result) ProtoMessage() {}
+
+func (x *SignUpCallResponse_Result) ProtoReflect() protoreflect.Message {
+	mi := &file_calls_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SignUpCallResponse_Result.ProtoReflect.Descriptor instead.
+func (*SignUpCallResponse_Result) Descriptor() ([]byte, []int) {
+	return file_calls_proto_rawDescGZIP(), []int{3, 0}
+}
+
+func (m *SignUpCallResponse_Result) GetResult() isSignUpCallResponse_Result_Result {
+	if m != nil {
+		return m.Result
+	}
+	return nil
+}
+
+func (x *SignUpCallResponse_Result) GetSuccess() *SignUpCallResponse_Result_Success {
+	if x, ok := x.GetResult().(*SignUpCallResponse_Result_Success_); ok {
+		return x.Success
+	}
+	return nil
+}
+
+func (x *SignUpCallResponse_Result) GetFailure() *Failure {
+	if x, ok := x.GetResult().(*SignUpCallResponse_Result_Failure); ok {
+		return x.Failure
+	}
+	return nil
+}
+
+type isSignUpCallResponse_Result_Result interface {
+	isSignUpCallResponse_Result_Result()
+}
+
+type SignUpCallResponse_Result_Success_ struct {
+	Success *SignUpCallResponse_Result_Success `protobuf:"bytes,1,opt,name=success,proto3,oneof"`
+}
+
+type SignUpCallResponse_Result_Failure struct {
+	Failure *Failure `protobuf:"bytes,2,opt,name=failure,proto3,oneof"`
+}
+
+func (*SignUpCallResponse_Result_Success_) isSignUpCallResponse_Result_Result() {}
+
+func (*SignUpCallResponse_Result_Failure) isSignUpCallResponse_Result_Result() {}
+
+type SignUpCallResponse_Result_Success struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Token string `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+}
+
+func (x *SignUpCallResponse_Result_Success) Reset() {
+	*x = SignUpCallResponse_Result_Success{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_calls_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SignUpCallResponse_Result_Success) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SignUpCallResponse_Result_Success) ProtoMessage() {}
+
+func (x *SignUpCallResponse_Result_Success) ProtoReflect() protoreflect.Message {
+	mi := &file_calls_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SignUpCallResponse_Result_Success.ProtoReflect.Descriptor instead.
+func (*SignUpCallResponse_Result_Success) Descriptor() ([]byte, []int) {
+	return file_calls_proto_rawDescGZIP(), []int{3, 0, 0}
+}
+
+func (x *SignUpCallResponse_Result_Success) GetToken() string {
 	if x != nil {
 		return x.Token
 	}
@@ -378,16 +687,55 @@ var file_calls_proto_rawDesc = []byte{
 	0x66, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65, 0x1a, 0x1f, 0x0a, 0x07, 0x53, 0x75, 0x63, 0x63, 0x65,
 	0x73, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28,
 	0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x42, 0x08, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75,
-	0x6c, 0x74, 0x32, 0x7d, 0x0a, 0x07, 0x4d, 0x61, 0x69, 0x6e, 0x41, 0x70, 0x69, 0x12, 0x72, 0x0a,
-	0x06, 0x53, 0x69, 0x67, 0x6e, 0x49, 0x6e, 0x12, 0x22, 0x2e, 0x67, 0x6f, 0x5f, 0x62, 0x6f, 0x69,
-	0x6c, 0x65, 0x72, 0x2e, 0x63, 0x61, 0x6c, 0x6c, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x49, 0x6e,
-	0x43, 0x61, 0x6c, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x23, 0x2e, 0x67, 0x6f,
-	0x5f, 0x62, 0x6f, 0x69, 0x6c, 0x65, 0x72, 0x2e, 0x63, 0x61, 0x6c, 0x6c, 0x73, 0x2e, 0x53, 0x69,
-	0x67, 0x6e, 0x49, 0x6e, 0x43, 0x61, 0x6c, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x1f, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x19, 0x3a, 0x01, 0x2a, 0x22, 0x14, 0x2f, 0x61, 0x70,
-	0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x2f, 0x73, 0x69, 0x67, 0x6e, 0x2d, 0x69,
-	0x6e, 0x42, 0x08, 0x5a, 0x06, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+	0x6c, 0x74, 0x22, 0xda, 0x01, 0x0a, 0x11, 0x53, 0x69, 0x67, 0x6e, 0x55, 0x70, 0x43, 0x61, 0x6c,
+	0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x0e, 0x0a, 0x02,
+	0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x22, 0x0a, 0x04,
+	0x6d, 0x65, 0x74, 0x61, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0e, 0x2e, 0x64, 0x66, 0x2e,
+	0x74, 0x79, 0x70, 0x65, 0x73, 0x2e, 0x4d, 0x65, 0x74, 0x61, 0x52, 0x04, 0x6d, 0x65, 0x74, 0x61,
+	0x12, 0x41, 0x0a, 0x06, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x29, 0x2e, 0x67, 0x6f, 0x5f, 0x62, 0x6f, 0x69, 0x6c, 0x65, 0x72, 0x2e, 0x63, 0x61, 0x6c,
+	0x6c, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x55, 0x70, 0x43, 0x61, 0x6c, 0x6c, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x2e, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x06, 0x70, 0x61, 0x72,
+	0x61, 0x6d, 0x73, 0x1a, 0x3a, 0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x14, 0x0a,
+	0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x6d,
+	0x61, 0x69, 0x6c, 0x12, 0x1a, 0x0a, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x22,
+	0x9d, 0x02, 0x0a, 0x12, 0x53, 0x69, 0x67, 0x6e, 0x55, 0x70, 0x43, 0x61, 0x6c, 0x6c, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x42, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2a, 0x2e, 0x67, 0x6f, 0x5f, 0x62, 0x6f, 0x69, 0x6c,
+	0x65, 0x72, 0x2e, 0x63, 0x61, 0x6c, 0x6c, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x55, 0x70, 0x43,
+	0x61, 0x6c, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x52, 0x65, 0x73, 0x75,
+	0x6c, 0x74, 0x52, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x1a, 0xb2, 0x01, 0x0a, 0x06, 0x52,
+	0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x4e, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x32, 0x2e, 0x67, 0x6f, 0x5f, 0x62, 0x6f, 0x69, 0x6c,
+	0x65, 0x72, 0x2e, 0x63, 0x61, 0x6c, 0x6c, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x55, 0x70, 0x43,
+	0x61, 0x6c, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x52, 0x65, 0x73, 0x75,
+	0x6c, 0x74, 0x2e, 0x53, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x48, 0x00, 0x52, 0x07, 0x73, 0x75,
+	0x63, 0x63, 0x65, 0x73, 0x73, 0x12, 0x2d, 0x0a, 0x07, 0x66, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x64, 0x66, 0x2e, 0x74, 0x79, 0x70, 0x65,
+	0x73, 0x2e, 0x46, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65, 0x48, 0x00, 0x52, 0x07, 0x66, 0x61, 0x69,
+	0x6c, 0x75, 0x72, 0x65, 0x1a, 0x1f, 0x0a, 0x07, 0x53, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x12,
+	0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
+	0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x42, 0x08, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x32,
+	0xf1, 0x01, 0x0a, 0x07, 0x4d, 0x61, 0x69, 0x6e, 0x41, 0x70, 0x69, 0x12, 0x72, 0x0a, 0x06, 0x53,
+	0x69, 0x67, 0x6e, 0x49, 0x6e, 0x12, 0x22, 0x2e, 0x67, 0x6f, 0x5f, 0x62, 0x6f, 0x69, 0x6c, 0x65,
+	0x72, 0x2e, 0x63, 0x61, 0x6c, 0x6c, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x49, 0x6e, 0x43, 0x61,
+	0x6c, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x23, 0x2e, 0x67, 0x6f, 0x5f, 0x62,
+	0x6f, 0x69, 0x6c, 0x65, 0x72, 0x2e, 0x63, 0x61, 0x6c, 0x6c, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e,
+	0x49, 0x6e, 0x43, 0x61, 0x6c, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1f,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x19, 0x3a, 0x01, 0x2a, 0x22, 0x14, 0x2f, 0x61, 0x70, 0x69, 0x2f,
+	0x76, 0x31, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x2f, 0x73, 0x69, 0x67, 0x6e, 0x2d, 0x69, 0x6e, 0x12,
+	0x72, 0x0a, 0x06, 0x53, 0x69, 0x67, 0x6e, 0x55, 0x70, 0x12, 0x22, 0x2e, 0x67, 0x6f, 0x5f, 0x62,
+	0x6f, 0x69, 0x6c, 0x65, 0x72, 0x2e, 0x63, 0x61, 0x6c, 0x6c, 0x73, 0x2e, 0x53, 0x69, 0x67, 0x6e,
+	0x55, 0x70, 0x43, 0x61, 0x6c, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x23, 0x2e,
+	0x67, 0x6f, 0x5f, 0x62, 0x6f, 0x69, 0x6c, 0x65, 0x72, 0x2e, 0x63, 0x61, 0x6c, 0x6c, 0x73, 0x2e,
+	0x53, 0x69, 0x67, 0x6e, 0x55, 0x70, 0x43, 0x61, 0x6c, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x1f, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x19, 0x3a, 0x01, 0x2a, 0x22, 0x14, 0x2f,
+	0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x2f, 0x73, 0x69, 0x67, 0x6e,
+	0x2d, 0x75, 0x70, 0x42, 0x08, 0x5a, 0x06, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -402,29 +750,41 @@ func file_calls_proto_rawDescGZIP() []byte {
 	return file_calls_proto_rawDescData
 }
 
-var file_calls_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_calls_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_calls_proto_goTypes = []interface{}{
 	(*SignInCallRequest)(nil),                 // 0: go_boiler.calls.SignInCallRequest
 	(*SignInCallResponse)(nil),                // 1: go_boiler.calls.SignInCallResponse
-	(*SignInCallRequest_Params)(nil),          // 2: go_boiler.calls.SignInCallRequest.Params
-	(*SignInCallResponse_Result)(nil),         // 3: go_boiler.calls.SignInCallResponse.Result
-	(*SignInCallResponse_Result_Success)(nil), // 4: go_boiler.calls.SignInCallResponse.Result.Success
-	(*Meta)(nil),    // 5: df.types.Meta
-	(*Failure)(nil), // 6: df.types.Failure
+	(*SignUpCallRequest)(nil),                 // 2: go_boiler.calls.SignUpCallRequest
+	(*SignUpCallResponse)(nil),                // 3: go_boiler.calls.SignUpCallResponse
+	(*SignInCallRequest_Params)(nil),          // 4: go_boiler.calls.SignInCallRequest.Params
+	(*SignInCallResponse_Result)(nil),         // 5: go_boiler.calls.SignInCallResponse.Result
+	(*SignInCallResponse_Result_Success)(nil), // 6: go_boiler.calls.SignInCallResponse.Result.Success
+	(*SignUpCallRequest_Params)(nil),          // 7: go_boiler.calls.SignUpCallRequest.Params
+	(*SignUpCallResponse_Result)(nil),         // 8: go_boiler.calls.SignUpCallResponse.Result
+	(*SignUpCallResponse_Result_Success)(nil), // 9: go_boiler.calls.SignUpCallResponse.Result.Success
+	(*Meta)(nil),    // 10: df.types.Meta
+	(*Failure)(nil), // 11: df.types.Failure
 }
 var file_calls_proto_depIdxs = []int32{
-	5, // 0: go_boiler.calls.SignInCallRequest.meta:type_name -> df.types.Meta
-	2, // 1: go_boiler.calls.SignInCallRequest.params:type_name -> go_boiler.calls.SignInCallRequest.Params
-	3, // 2: go_boiler.calls.SignInCallResponse.result:type_name -> go_boiler.calls.SignInCallResponse.Result
-	4, // 3: go_boiler.calls.SignInCallResponse.Result.success:type_name -> go_boiler.calls.SignInCallResponse.Result.Success
-	6, // 4: go_boiler.calls.SignInCallResponse.Result.failure:type_name -> df.types.Failure
-	0, // 5: go_boiler.calls.MainApi.SignIn:input_type -> go_boiler.calls.SignInCallRequest
-	1, // 6: go_boiler.calls.MainApi.SignIn:output_type -> go_boiler.calls.SignInCallResponse
-	6, // [6:7] is the sub-list for method output_type
-	5, // [5:6] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	10, // 0: go_boiler.calls.SignInCallRequest.meta:type_name -> df.types.Meta
+	4,  // 1: go_boiler.calls.SignInCallRequest.params:type_name -> go_boiler.calls.SignInCallRequest.Params
+	5,  // 2: go_boiler.calls.SignInCallResponse.result:type_name -> go_boiler.calls.SignInCallResponse.Result
+	10, // 3: go_boiler.calls.SignUpCallRequest.meta:type_name -> df.types.Meta
+	7,  // 4: go_boiler.calls.SignUpCallRequest.params:type_name -> go_boiler.calls.SignUpCallRequest.Params
+	8,  // 5: go_boiler.calls.SignUpCallResponse.result:type_name -> go_boiler.calls.SignUpCallResponse.Result
+	6,  // 6: go_boiler.calls.SignInCallResponse.Result.success:type_name -> go_boiler.calls.SignInCallResponse.Result.Success
+	11, // 7: go_boiler.calls.SignInCallResponse.Result.failure:type_name -> df.types.Failure
+	9,  // 8: go_boiler.calls.SignUpCallResponse.Result.success:type_name -> go_boiler.calls.SignUpCallResponse.Result.Success
+	11, // 9: go_boiler.calls.SignUpCallResponse.Result.failure:type_name -> df.types.Failure
+	0,  // 10: go_boiler.calls.MainApi.SignIn:input_type -> go_boiler.calls.SignInCallRequest
+	2,  // 11: go_boiler.calls.MainApi.SignUp:input_type -> go_boiler.calls.SignUpCallRequest
+	1,  // 12: go_boiler.calls.MainApi.SignIn:output_type -> go_boiler.calls.SignInCallResponse
+	3,  // 13: go_boiler.calls.MainApi.SignUp:output_type -> go_boiler.calls.SignUpCallResponse
+	12, // [12:14] is the sub-list for method output_type
+	10, // [10:12] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_calls_proto_init() }
@@ -459,7 +819,7 @@ func file_calls_proto_init() {
 			}
 		}
 		file_calls_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SignInCallRequest_Params); i {
+			switch v := v.(*SignUpCallRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -471,7 +831,7 @@ func file_calls_proto_init() {
 			}
 		}
 		file_calls_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SignInCallResponse_Result); i {
+			switch v := v.(*SignUpCallResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -483,6 +843,30 @@ func file_calls_proto_init() {
 			}
 		}
 		file_calls_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SignInCallRequest_Params); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_calls_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SignInCallResponse_Result); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_calls_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*SignInCallResponse_Result_Success); i {
 			case 0:
 				return &v.state
@@ -494,10 +878,50 @@ func file_calls_proto_init() {
 				return nil
 			}
 		}
+		file_calls_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SignUpCallRequest_Params); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_calls_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SignUpCallResponse_Result); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_calls_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SignUpCallResponse_Result_Success); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
-	file_calls_proto_msgTypes[3].OneofWrappers = []interface{}{
+	file_calls_proto_msgTypes[5].OneofWrappers = []interface{}{
 		(*SignInCallResponse_Result_Success_)(nil),
 		(*SignInCallResponse_Result_Failure)(nil),
+	}
+	file_calls_proto_msgTypes[8].OneofWrappers = []interface{}{
+		(*SignUpCallResponse_Result_Success_)(nil),
+		(*SignUpCallResponse_Result_Failure)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -505,7 +929,7 @@ func file_calls_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_calls_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

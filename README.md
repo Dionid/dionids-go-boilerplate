@@ -82,7 +82,7 @@
 1. Add `rpc ${feature_name}` to `/proto/go-boiler/calls.proto` to `MainApi`
 1. Run `make generate-protobuf`
 1. Add file `features/${feature_name}.go`
-1. Write business logic
+1. Write business logic in it
 1. When you need SQL:
     1. You have options
         1. If static SQL
