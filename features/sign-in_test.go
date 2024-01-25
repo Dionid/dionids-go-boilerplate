@@ -6,7 +6,7 @@ import (
 
 	"github.com/Dionid/go-boiler/api/v1/go/proto"
 	"github.com/Dionid/go-boiler/features"
-	inttests "github.com/Dionid/go-boiler/int-tests"
+	inttests "github.com/Dionid/go-boiler/internal/int-tests"
 	"github.com/google/uuid"
 )
 

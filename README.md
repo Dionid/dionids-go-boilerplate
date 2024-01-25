@@ -3,7 +3,7 @@
 1. Create `.env` from `.env.example`
 1. Create `./int-tests/test.env` from `./int-tests/test.env.example`
 1. Run `make setup`
-1. (optional if private gitlab) Add your token to `~/.netrc` and add `GONOSUMDB` (https://docs.gitlab.com/ee/user/packages/go_proxy/)
+1. (if private gitlab) Add your token to `~/.netrc` and add `GONOSUMDB` (https://docs.gitlab.com/ee/user/packages/go_proxy/)
 1. ???
 1. Profit
 
@@ -18,18 +18,63 @@
 
 # Whats inside
 
-1. Fully typed-safe SQL (raw sql on sqlc + query builder on dioq)
-1. pre-commit
+1. FOP
+1. DB
+    1. Fully typed-safe SQL (raw sql on sqlc + query builder on dioq)
+    1. Migrations
+    1. Introspection
 1. Protobuf
-1. Error handling
+1. Error handling with terrors
 1. Benchmarks
 1. Migrations
-1. Add int tests
+1. Integration tests
 1. PG pool
 1. gRPC
-1. Return only coreerr
 1. Graceful-shutdown
 1. Swagger
+1. pre-commit
+
+# Stack
+
+1. DB
+    1. dioq
+    1. sqlc
+    1. xo
+    1. pg
+1. Transport
+    1. protobuf
+    1. amqp091-go
+    1. echo
+    1. grpc
+1. Utils
+    1. zap
+    1. jwt
+    1. uuid
+    1. crypto
+1. Development
+    1. go 1.21.6
+    1. golangci
+    1. docker
+    1. testify
+
+# Folder structure
+
+1. `/api` – compiled protobuf files
+1. `/bench` – benchmarks
+1. `/cmd` – applications
+1. `/dbs` – databases (migrations, fixtures, introspection)
+1. `/docker` – files for docker setup
+1. `/features` – business logic
+1. `/for-setup` – golang setup files
+1. `/internal` – internal packages
+    1. `/int-tests` – integration tests
+    1. `/auth` – internal auth package
+1. `/pkg` – packages that can be used as a library for another project
+1. `/proto` – protobuf files
+    1. `/go-boiler` – application protobuf files for go-boiler
+1. `/scripts` – scripts
+1. `/vendor` – vendor folder
+
 
 # How to add new Feature
 
@@ -56,11 +101,11 @@
 1. ???
 1. Profit
 
-# How to create Feature tests
+# How to create Feature integration tests
 
-1. !!! All integration tests must be named as `TestInt`
 1. Create `features/${feature_name}_test.go` from `features/test-template_test.go`
-1. `make int-test` (2 or 3 times if docker containers were restarted)
+1. !!! All integration tests functions must be named as `TestInt`
+1. `make int-test` (run 2 or 3 times if docker containers were restarted)
 1. ???
 1. Profit
 

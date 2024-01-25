@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/Dionid/go-boiler/api/v1/go/proto"
-	inttests "github.com/Dionid/go-boiler/int-tests"
+	inttests "github.com/Dionid/go-boiler/internal/int-tests"
 	"github.com/Dionid/go-boiler/pkg/df"
 	"github.com/Dionid/go-boiler/pkg/terrors"
 	"github.com/google/uuid"

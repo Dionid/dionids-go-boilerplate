@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/Dionid/go-boiler/features"
-	inttests "github.com/Dionid/go-boiler/int-tests"
+	inttests "github.com/Dionid/go-boiler/internal/int-tests"
 )
 
 func TestIntTemplate(t *testing.T) {
