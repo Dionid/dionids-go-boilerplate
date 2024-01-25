@@ -8,38 +8,38 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/Dionid/go-boiler/pkg/dioq"
+	"github.com/Dionid/go-boiler/pkg/qbik"
 )
 
 type GooseDbVersionTableSt struct {
-	dioq.Table
-	ID        dioq.Column[int]
-	VersionID dioq.Column[int64]
-	IsApplied dioq.Column[bool]
-	Tstamp    dioq.Column[sql.NullTime]
+	qbik.Table
+	ID        qbik.Column[int]
+	VersionID qbik.Column[int64]
+	IsApplied qbik.Column[bool]
+	Tstamp    qbik.Column[sql.NullTime]
 }
 
 func (t GooseDbVersionTableSt) As(alias string) GooseDbVersionTableSt {
 	t.Table.TableAlias = fmt.Sprintf(`"%s"`, alias)
-	t.ID = dioq.NewColumnWithAlias[int](t.Table, t.ID.ColumnName, t.ID.ColumnAlias)
-	t.VersionID = dioq.NewColumnWithAlias[int64](t.Table, t.VersionID.ColumnName, t.VersionID.ColumnAlias)
-	t.IsApplied = dioq.NewColumnWithAlias[bool](t.Table, t.IsApplied.ColumnName, t.IsApplied.ColumnAlias)
-	t.Tstamp = dioq.NewColumnWithAlias[sql.NullTime](t.Table, t.Tstamp.ColumnName, t.Tstamp.ColumnAlias)
+	t.ID = qbik.NewColumnWithAlias[int](t.Table, t.ID.ColumnName, t.ID.ColumnAlias)
+	t.VersionID = qbik.NewColumnWithAlias[int64](t.Table, t.VersionID.ColumnName, t.VersionID.ColumnAlias)
+	t.IsApplied = qbik.NewColumnWithAlias[bool](t.Table, t.IsApplied.ColumnName, t.IsApplied.ColumnAlias)
+	t.Tstamp = qbik.NewColumnWithAlias[sql.NullTime](t.Table, t.Tstamp.ColumnName, t.Tstamp.ColumnAlias)
 
 	return t
 }
 
-var GooseDbVersionTableBase = dioq.Table{
+var GooseDbVersionTableBase = qbik.Table{
 	TableName:  `"goose_db_version"`,
 	TableAlias: `"goose_db_version"`,
 }
 
 var GooseDbVersionTable = GooseDbVersionTableSt{
 	Table:     GooseDbVersionTableBase,
-	ID:        dioq.NewColumn[int](GooseDbVersionTableBase, `"id"`),
-	VersionID: dioq.NewColumn[int64](GooseDbVersionTableBase, `"version_id"`),
-	IsApplied: dioq.NewColumn[bool](GooseDbVersionTableBase, `"is_applied"`),
-	Tstamp:    dioq.NewColumn[sql.NullTime](GooseDbVersionTableBase, `"tstamp"`),
+	ID:        qbik.NewColumn[int](GooseDbVersionTableBase, `"id"`),
+	VersionID: qbik.NewColumn[int64](GooseDbVersionTableBase, `"version_id"`),
+	IsApplied: qbik.NewColumn[bool](GooseDbVersionTableBase, `"is_applied"`),
+	Tstamp:    qbik.NewColumn[sql.NullTime](GooseDbVersionTableBase, `"tstamp"`),
 }
 
 // # Constants
@@ -110,28 +110,28 @@ func InsertIntoGooseDbVersionTable(
 		return nil, errors.New("InsertableGooseDbVersionModel is nil")
 	}
 
-	valueSetList := make([]dioq.ValuesSetSt, len(modelsList))
+	valueSetList := make([]qbik.ValuesSetSt, len(modelsList))
 
 	for i, model := range modelsList {
 		if model == nil {
 			return nil, errors.New("InsertableUserModel is nil")
 		}
 
-		valueSetList[i] = dioq.ValueSet(
-			dioq.VALUE(GooseDbVersionTable.VersionID, model.VersionID),
-			dioq.VALUE(GooseDbVersionTable.IsApplied, model.IsApplied),
-			dioq.VALUE(GooseDbVersionTable.Tstamp, model.Tstamp),
+		valueSetList[i] = qbik.ValueSet(
+			qbik.VALUE(GooseDbVersionTable.VersionID, model.VersionID),
+			qbik.VALUE(GooseDbVersionTable.IsApplied, model.IsApplied),
+			qbik.VALUE(GooseDbVersionTable.Tstamp, model.Tstamp),
 		)
 	}
 
-	query, err := dioq.Query(
-		dioq.INSERT_INTO(
+	query, err := qbik.Query(
+		qbik.INSERT_INTO(
 			GooseDbVersionTable,
 			GooseDbVersionTable.VersionID,
 			GooseDbVersionTable.IsApplied,
 			GooseDbVersionTable.Tstamp,
 		),
-		dioq.VALUES(
+		qbik.VALUES(
 			valueSetList...,
 		),
 	)
@@ -151,31 +151,31 @@ func InsertIntoGooseDbVersionTableReturningAll(
 		return nil, errors.New("InsertableGooseDbVersionModel is nil")
 	}
 
-	valueSetList := make([]dioq.ValuesSetSt, len(modelsList))
+	valueSetList := make([]qbik.ValuesSetSt, len(modelsList))
 
 	for i, model := range modelsList {
 		if model == nil {
 			return nil, errors.New("InsertableUserModel is nil")
 		}
 
-		valueSetList[i] = dioq.ValueSet(
-			dioq.VALUE(GooseDbVersionTable.VersionID, model.VersionID),
-			dioq.VALUE(GooseDbVersionTable.IsApplied, model.IsApplied),
-			dioq.VALUE(GooseDbVersionTable.Tstamp, model.Tstamp),
+		valueSetList[i] = qbik.ValueSet(
+			qbik.VALUE(GooseDbVersionTable.VersionID, model.VersionID),
+			qbik.VALUE(GooseDbVersionTable.IsApplied, model.IsApplied),
+			qbik.VALUE(GooseDbVersionTable.Tstamp, model.Tstamp),
 		)
 	}
 
-	query, err := dioq.Query(
-		dioq.INSERT_INTO(
+	query, err := qbik.Query(
+		qbik.INSERT_INTO(
 			GooseDbVersionTable,
 			GooseDbVersionTable.VersionID,
 			GooseDbVersionTable.IsApplied,
 			GooseDbVersionTable.Tstamp,
 		),
-		dioq.VALUES(
+		qbik.VALUES(
 			valueSetList...,
 		),
-		dioq.RETURNING(GooseDbVersionTable.AllColumns()),
+		qbik.RETURNING(GooseDbVersionTable.AllColumns()),
 	)
 	if err != nil {
 		return nil, err
@@ -225,15 +225,15 @@ func SelectGooseDbVersionTableByID(
 	db DB,
 	ID int,
 ) (*GooseDbVersionModel, error) {
-	query, err := dioq.Query(
-		dioq.SELECT(
+	query, err := qbik.Query(
+		qbik.SELECT(
 			GooseDbVersionTable.AllColumns(),
 		),
-		dioq.FROM(GooseDbVersionTable),
-		dioq.WHERE(
-			dioq.EQUAL(GooseDbVersionTable.ID, ID),
+		qbik.FROM(GooseDbVersionTable),
+		qbik.WHERE(
+			qbik.EQUAL(GooseDbVersionTable.ID, ID),
 		),
-		dioq.LIMIT(1),
+		qbik.LIMIT(1),
 	)
 	if err != nil {
 		return nil, err
@@ -260,12 +260,12 @@ func DeleteFromGooseDbVersionTableByID(
 	db DB,
 	ID int,
 ) (sql.Result, error) {
-	query, err := dioq.Query(
-		dioq.DELETE_FROM(
+	query, err := qbik.Query(
+		qbik.DELETE_FROM(
 			GooseDbVersionTable,
 		),
-		dioq.WHERE(
-			dioq.EQUAL(GooseDbVersionTable.ID, ID),
+		qbik.WHERE(
+			qbik.EQUAL(GooseDbVersionTable.ID, ID),
 		),
 	)
 	if err != nil {
@@ -284,31 +284,31 @@ func InsertIntoGooseDbVersionTableReturningID(
 		return nil, errors.New("InsertIntoGooseDbVersionTableReturningIDResult is nil")
 	}
 
-	valueSetList := make([]dioq.ValuesSetSt, len(modelsList))
+	valueSetList := make([]qbik.ValuesSetSt, len(modelsList))
 
 	for i, model := range modelsList {
 		if model == nil {
 			return nil, errors.New("InsertableUserModel is nil")
 		}
 
-		valueSetList[i] = dioq.ValueSet(
-			dioq.VALUE(GooseDbVersionTable.VersionID, model.VersionID),
-			dioq.VALUE(GooseDbVersionTable.IsApplied, model.IsApplied),
-			dioq.VALUE(GooseDbVersionTable.Tstamp, model.Tstamp),
+		valueSetList[i] = qbik.ValueSet(
+			qbik.VALUE(GooseDbVersionTable.VersionID, model.VersionID),
+			qbik.VALUE(GooseDbVersionTable.IsApplied, model.IsApplied),
+			qbik.VALUE(GooseDbVersionTable.Tstamp, model.Tstamp),
 		)
 	}
 
-	query, err := dioq.Query(
-		dioq.INSERT_INTO(
+	query, err := qbik.Query(
+		qbik.INSERT_INTO(
 			GooseDbVersionTable,
 			GooseDbVersionTable.VersionID,
 			GooseDbVersionTable.IsApplied,
 			GooseDbVersionTable.Tstamp,
 		),
-		dioq.VALUES(
+		qbik.VALUES(
 			valueSetList...,
 		),
-		dioq.RETURNING(
+		qbik.RETURNING(
 			GooseDbVersionTable.ID,
 		),
 	)
@@ -334,30 +334,30 @@ func UpdateGooseDbVersionTableByID(
 	updatableModel *UpdatableGooseDbVersionModel,
 	ID int,
 ) (sql.Result, error) {
-	valuesSetList := []dioq.Statement{}
+	valuesSetList := []qbik.Statement{}
 
 	if updatableModel.ID != nil {
-		valuesSetList = append(valuesSetList, dioq.SET_VALUE(GooseDbVersionTable.ID, *updatableModel.ID))
+		valuesSetList = append(valuesSetList, qbik.SET_VALUE(GooseDbVersionTable.ID, *updatableModel.ID))
 	}
 	if updatableModel.VersionID != nil {
-		valuesSetList = append(valuesSetList, dioq.SET_VALUE(GooseDbVersionTable.VersionID, *updatableModel.VersionID))
+		valuesSetList = append(valuesSetList, qbik.SET_VALUE(GooseDbVersionTable.VersionID, *updatableModel.VersionID))
 	}
 	if updatableModel.IsApplied != nil {
-		valuesSetList = append(valuesSetList, dioq.SET_VALUE(GooseDbVersionTable.IsApplied, *updatableModel.IsApplied))
+		valuesSetList = append(valuesSetList, qbik.SET_VALUE(GooseDbVersionTable.IsApplied, *updatableModel.IsApplied))
 	}
 	if updatableModel.Tstamp != nil {
-		valuesSetList = append(valuesSetList, dioq.SET_VALUE(GooseDbVersionTable.Tstamp, *updatableModel.Tstamp))
+		valuesSetList = append(valuesSetList, qbik.SET_VALUE(GooseDbVersionTable.Tstamp, *updatableModel.Tstamp))
 	}
 
-	query, err := dioq.Query(
-		dioq.UPDATE(
+	query, err := qbik.Query(
+		qbik.UPDATE(
 			GooseDbVersionTable,
 		),
-		dioq.SET(
+		qbik.SET(
 			valuesSetList...,
 		),
-		dioq.WHERE(
-			dioq.EQUAL(GooseDbVersionTable.ID, ID),
+		qbik.WHERE(
+			qbik.EQUAL(GooseDbVersionTable.ID, ID),
 		),
 	)
 	if err != nil {

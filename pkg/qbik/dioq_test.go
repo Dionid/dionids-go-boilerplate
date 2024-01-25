@@ -1,10 +1,10 @@
-package dioq_test
+package qbik_test
 
 import (
 	"testing"
 
 	. "github.com/Dionid/go-boiler/dbs/maindb"
-	. "github.com/Dionid/go-boiler/pkg/dioq"
+	. "github.com/Dionid/go-boiler/pkg/qbik"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 )

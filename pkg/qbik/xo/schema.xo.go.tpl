@@ -152,22 +152,22 @@ func (err ErrInvalid{{ $e.GoName }}) Error() string {
 {{- $t := .Data -}}
 
 type {{ $t.GoName }}TableSt struct {
-	dioq.Table
+	qbik.Table
 	{{ range $t.Fields -}}
-		{{ .GoName }} dioq.Column[{{ .Type }}]
+		{{ .GoName }} qbik.Column[{{ .Type }}]
 	{{ end }}
 }
 
 func (t {{ $t.GoName }}TableSt) As(alias string) {{ $t.GoName }}TableSt {
 	t.Table.TableAlias = fmt.Sprintf(`"%s"`, alias)
 	{{ range $t.Fields -}}
-		t.{{ .GoName }} = dioq.NewColumnWithAlias[{{ .Type }}](t.Table, t.{{ .GoName }}.ColumnName, t.{{ .GoName }}.ColumnAlias)
+		t.{{ .GoName }} = qbik.NewColumnWithAlias[{{ .Type }}](t.Table, t.{{ .GoName }}.ColumnName, t.{{ .GoName }}.ColumnAlias)
 	{{ end }}
 
 	return t
 }
 
-var {{ $t.GoName }}TableBase = dioq.Table{
+var {{ $t.GoName }}TableBase = qbik.Table{
 	TableName: `"{{ $t.SQLName }}"`,
 	TableAlias: `"{{ $t.SQLName }}"`,
 }
@@ -175,7 +175,7 @@ var {{ $t.GoName }}TableBase = dioq.Table{
 var {{ $t.GoName }}Table = {{ $t.GoName }}TableSt{
 	Table: {{ $t.GoName }}TableBase,
 {{ range $t.Fields -}}
-	{{ .GoName }}: dioq.NewColumn[{{ .Type }}]({{ $t.GoName }}TableBase, `"{{ .SQLName }}"`),
+	{{ .GoName }}: qbik.NewColumn[{{ .Type }}]({{ $t.GoName }}TableBase, `"{{ .SQLName }}"`),
 {{ end }}
 }
 
@@ -256,24 +256,24 @@ func InsertInto{{ $t.GoName }}Table(
 		return nil, errors.New("Insertable{{ $t.GoName }}Model is nil")
 	}
 
-	valueSetList := make([]dioq.ValuesSetSt, len(modelsList))
+	valueSetList := make([]qbik.ValuesSetSt, len(modelsList))
 
 	for i, model := range modelsList {
 		if model == nil {
 			return nil, errors.New("InsertableUserModel is nil")
 		}
 
-		valueSetList[i] = dioq.ValueSet(
+		valueSetList[i] = qbik.ValueSet(
 			{{ range $t.Fields }}
 				{{- if not .IsSequence -}}
-					dioq.VALUE({{ $t.GoName }}Table.{{ .GoName }}, model.{{ .GoName }}),
+					qbik.VALUE({{ $t.GoName }}Table.{{ .GoName }}, model.{{ .GoName }}),
 				{{ end -}}
 			{{ end }}
 		)
 	}
 
-	query, err := dioq.Query(
-		dioq.INSERT_INTO(
+	query, err := qbik.Query(
+		qbik.INSERT_INTO(
 			{{ $t.GoName }}Table,
 			{{ range $t.Fields }}
 				{{- if not .IsSequence -}}
@@ -281,7 +281,7 @@ func InsertInto{{ $t.GoName }}Table(
 				{{ end -}}
 			{{ end }}
 		),
-		dioq.VALUES(
+		qbik.VALUES(
 			valueSetList...
 		),
 	)
@@ -301,28 +301,28 @@ func InsertInto{{ $t.GoName }}TableReturningAll(
 		return nil, errors.New("Insertable{{ $t.GoName }}Model is nil")
 	}
 
-	valueSetList := make([]dioq.ValuesSetSt, len(modelsList))
+	valueSetList := make([]qbik.ValuesSetSt, len(modelsList))
 
 	for i, model := range modelsList {
 		if model == nil {
 			return nil, errors.New("InsertableUserModel is nil")
 		}
 
-		valueSetList[i] = dioq.ValueSet(
+		valueSetList[i] = qbik.ValueSet(
 			{{- range $t.Fields }}
 				{{- if not .IsSequence -}}
 					{{- if eq .Type "[]uuid.UUID" }}
 						pq.Array(model.{{ .GoName }}),
 					{{ else }}
-						dioq.VALUE({{ $t.GoName }}Table.{{ .GoName }}, model.{{ .GoName }}),
+						qbik.VALUE({{ $t.GoName }}Table.{{ .GoName }}, model.{{ .GoName }}),
 					{{- end -}}
 				{{ end -}}
 			{{ end }}
 		)
 	}
 
-	query, err := dioq.Query(
-		dioq.INSERT_INTO(
+	query, err := qbik.Query(
+		qbik.INSERT_INTO(
 			{{ $t.GoName }}Table,
 			{{ range $t.Fields }}
 				{{- if not .IsSequence -}}
@@ -330,10 +330,10 @@ func InsertInto{{ $t.GoName }}TableReturningAll(
 				{{ end -}}
 			{{ end }}
 		),
-		dioq.VALUES(
+		qbik.VALUES(
 			valueSetList...
 		),
-		dioq.RETURNING({{ $t.GoName }}Table.AllColumns()),
+		qbik.RETURNING({{ $t.GoName }}Table.AllColumns()),
 	)
 	if err != nil {
 		return nil, err
@@ -385,15 +385,15 @@ func NewUpdatable{{ $t.GoName }}Model(
 			db DB,
 			{{ .GoName }} {{ .Type }},
 		) (*{{ $t.GoName }}Model, error) {
-			query, err := dioq.Query(
-				dioq.SELECT(
+			query, err := qbik.Query(
+				qbik.SELECT(
 					{{ $t.GoName }}Table.AllColumns(),
 				),
-				dioq.FROM({{ $t.GoName }}Table),
-				dioq.WHERE(
-					dioq.EQUAL({{ $t.GoName }}Table.{{ .GoName }}, {{ .GoName }}),
+				qbik.FROM({{ $t.GoName }}Table),
+				qbik.WHERE(
+					qbik.EQUAL({{ $t.GoName }}Table.{{ .GoName }}, {{ .GoName }}),
 				),
-				dioq.LIMIT(1),
+				qbik.LIMIT(1),
 			)
 			if err != nil {
 				return nil, err
@@ -423,12 +423,12 @@ func NewUpdatable{{ $t.GoName }}Model(
 			db DB,
 			{{ .GoName }} {{ .Type }},
 		) (sql.Result, error) {
-			query, err := dioq.Query(
-				dioq.DELETE_FROM(
+			query, err := qbik.Query(
+				qbik.DELETE_FROM(
 					{{ $t.GoName }}Table,
 				),
-				dioq.WHERE(
-					dioq.EQUAL({{ $t.GoName }}Table.{{ .GoName }}, {{ .GoName }}),
+				qbik.WHERE(
+					qbik.EQUAL({{ $t.GoName }}Table.{{ .GoName }}, {{ .GoName }}),
 				),
 			)
 			if err != nil {
@@ -455,19 +455,19 @@ func NewUpdatable{{ $t.GoName }}Model(
 				{{ .GoName }} {{ .Type }},
 			{{- end -}}
 		) (*{{ $i.Table.GoName }}Model, error) {
-			query, err := dioq.Query(
-				dioq.SELECT(
+			query, err := qbik.Query(
+				qbik.SELECT(
 					{{ $i.Table.GoName }}Table.AllColumns(),
 				),
-				dioq.FROM({{ $i.Table.GoName }}Table),
-				dioq.WHERE(
-					dioq.AND(
+				qbik.FROM({{ $i.Table.GoName }}Table),
+				qbik.WHERE(
+					qbik.AND(
 						{{ range $i.Fields -}}
-							dioq.EQUAL({{ $i.Table.GoName }}Table.{{ .GoName }}, {{ .GoName }}),
+							qbik.EQUAL({{ $i.Table.GoName }}Table.{{ .GoName }}, {{ .GoName }}),
 						{{ end }}
 					),
 				),
-				dioq.LIMIT(1),
+				qbik.LIMIT(1),
 			)
 			if err != nil {
 				return nil, err
@@ -499,14 +499,14 @@ func NewUpdatable{{ $t.GoName }}Model(
 				{{ .GoName }} {{ .Type }},
 			{{- end -}}
 		) (sql.Result, error) {
-			query, err := dioq.Query(
-				dioq.DELETE_FROM(
+			query, err := qbik.Query(
+				qbik.DELETE_FROM(
 					{{ $i.Table.GoName }}Table,
 				),
-				dioq.WHERE(
-					dioq.AND(
+				qbik.WHERE(
+					qbik.AND(
 						{{ range $i.Fields -}}
-							dioq.EQUAL({{ $i.Table.GoName }}Table.{{ .GoName }}, {{ .GoName }}),
+							qbik.EQUAL({{ $i.Table.GoName }}Table.{{ .GoName }}, {{ .GoName }}),
 						{{ end }}
 					),
 				),
@@ -527,25 +527,25 @@ func NewUpdatable{{ $t.GoName }}Model(
 				{{ .GoName }} {{ .Type }},
 			{{- end -}}
 		) (sql.Result, error) {
-			valuesSetList := []dioq.Statement{}
+			valuesSetList := []qbik.Statement{}
 
 			{{ range $i.Table.Fields -}}
 				if updatableModel.{{ .GoName }} != nil {
-					valuesSetList = append(valuesSetList, dioq.SET_VALUE({{ $i.Table.GoName }}Table.{{ .GoName }}, *updatableModel.{{ .GoName }}))
+					valuesSetList = append(valuesSetList, qbik.SET_VALUE({{ $i.Table.GoName }}Table.{{ .GoName }}, *updatableModel.{{ .GoName }}))
 				}
 			{{ end }}
 
-			query, err := dioq.Query(
-				dioq.UPDATE(
+			query, err := qbik.Query(
+				qbik.UPDATE(
 					{{ $i.Table.GoName }}Table,
 				),
-				dioq.SET(
+				qbik.SET(
 					valuesSetList...,
 				),
-				dioq.WHERE(
-					dioq.AND(
+				qbik.WHERE(
+					qbik.AND(
 						{{ range $i.Fields -}}
-							dioq.EQUAL({{ $i.Table.GoName }}Table.{{ .GoName }}, {{ .GoName }}),
+							qbik.EQUAL({{ $i.Table.GoName }}Table.{{ .GoName }}, {{ .GoName }}),
 						{{ end }}
 					),
 				),
@@ -572,24 +572,24 @@ func NewUpdatable{{ $t.GoName }}Model(
 				return nil, errors.New("InsertInto{{ $i.Table.GoName }}TableReturning{{ range $i.Fields }}{{ .GoName }}{{ end }}Result is nil")
 			}
 
-			valueSetList := make([]dioq.ValuesSetSt, len(modelsList))
+			valueSetList := make([]qbik.ValuesSetSt, len(modelsList))
 
 			for i, model := range modelsList {
 				if model == nil {
 					return nil, errors.New("InsertableUserModel is nil")
 				}
 
-				valueSetList[i] = dioq.ValueSet(
+				valueSetList[i] = qbik.ValueSet(
 					{{ range $i.Table.Fields }}
 						{{- if not .IsSequence -}}
-							dioq.VALUE({{ $i.Table.GoName }}Table.{{ .GoName }}, model.{{ .GoName }}),
+							qbik.VALUE({{ $i.Table.GoName }}Table.{{ .GoName }}, model.{{ .GoName }}),
 						{{ end -}}
 					{{ end }}
 				)
 			}
 
-			query, err := dioq.Query(
-				dioq.INSERT_INTO(
+			query, err := qbik.Query(
+				qbik.INSERT_INTO(
 					{{ $i.Table.GoName }}Table,
 					{{ range $i.Table.Fields }}
 						{{- if not .IsSequence -}}
@@ -597,10 +597,10 @@ func NewUpdatable{{ $t.GoName }}Model(
 						{{ end -}}
 					{{ end }}
 				),
-				dioq.VALUES(
+				qbik.VALUES(
 					valueSetList...
 				),
-				dioq.RETURNING(
+				qbik.RETURNING(
 					{{- range $i.Fields }}
 						{{ $i.Table.GoName }}Table.{{ .GoName }},
 					{{- end }}
@@ -627,13 +627,13 @@ func NewUpdatable{{ $t.GoName }}Model(
 				db DB,
 				{{ .GoName }} {{ .Type }},
 			) ([]*{{ $i.Table.GoName }}Model, error) {
-				query, err := dioq.Query(
-					dioq.SELECT(
+				query, err := qbik.Query(
+					qbik.SELECT(
 						{{ $i.Table.GoName }}Table.AllColumns(),
 					),
-					dioq.FROM({{ $i.Table.GoName }}Table),
-					dioq.WHERE(
-						dioq.EQUAL({{ $i.Table.GoName }}Table.{{ .GoName }}, {{ .GoName }}),
+					qbik.FROM({{ $i.Table.GoName }}Table),
+					qbik.WHERE(
+						qbik.EQUAL({{ $i.Table.GoName }}Table.{{ .GoName }}, {{ .GoName }}),
 					),
 				)
 				if err != nil {
@@ -669,15 +669,15 @@ func NewUpdatable{{ $t.GoName }}Model(
 				db DB,
 				{{ .GoName }} {{ .Type }},
 			) (*{{ $i.Table.GoName }}Model, error) {
-				query, err := dioq.Query(
-					dioq.SELECT(
+				query, err := qbik.Query(
+					qbik.SELECT(
 						{{ $i.Table.GoName }}Table.AllColumns(),
 					),
-					dioq.FROM({{ $i.Table.GoName }}Table),
-					dioq.WHERE(
-						dioq.EQUAL({{ $i.Table.GoName }}Table.{{ .GoName }}, {{ .GoName }}),
+					qbik.FROM({{ $i.Table.GoName }}Table),
+					qbik.WHERE(
+						qbik.EQUAL({{ $i.Table.GoName }}Table.{{ .GoName }}, {{ .GoName }}),
 					),
-					dioq.LIMIT(1),
+					qbik.LIMIT(1),
 				)
 				if err != nil {
 					return nil, err
@@ -709,12 +709,12 @@ func NewUpdatable{{ $t.GoName }}Model(
 			db DB,
 			{{ .GoName }} {{ .Type }},
 		) (sql.Result, error) {
-			query, err := dioq.Query(
-				dioq.DELETE_FROM(
+			query, err := qbik.Query(
+				qbik.DELETE_FROM(
 					{{ $i.Table.GoName }}Table,
 				),
-				dioq.WHERE(
-					dioq.EQUAL({{ $i.Table.GoName }}Table.{{ .GoName }}, {{ .GoName }}),
+				qbik.WHERE(
+					qbik.EQUAL({{ $i.Table.GoName }}Table.{{ .GoName }}, {{ .GoName }}),
 				),
 			)
 			if err != nil {
@@ -733,24 +733,24 @@ func NewUpdatable{{ $t.GoName }}Model(
 				return nil, errors.New("InsertInto{{ $i.Table.GoName }}TableReturning{{ range $i.Fields }}{{ .GoName }}{{ end }}Result is nil")
 			}
 
-			valueSetList := make([]dioq.ValuesSetSt, len(modelsList))
+			valueSetList := make([]qbik.ValuesSetSt, len(modelsList))
 
 			for i, model := range modelsList {
 				if model == nil {
 					return nil, errors.New("InsertableUserModel is nil")
 				}
 
-				valueSetList[i] = dioq.ValueSet(
+				valueSetList[i] = qbik.ValueSet(
 					{{ range $i.Table.Fields }}
 						{{- if not .IsSequence -}}
-							dioq.VALUE({{ $i.Table.GoName }}Table.{{ .GoName }}, model.{{ .GoName }}),
+							qbik.VALUE({{ $i.Table.GoName }}Table.{{ .GoName }}, model.{{ .GoName }}),
 						{{ end -}}
 					{{ end }}
 				)
 			}
 
-			query, err := dioq.Query(
-				dioq.INSERT_INTO(
+			query, err := qbik.Query(
+				qbik.INSERT_INTO(
 					{{ $i.Table.GoName }}Table,
 					{{ range $i.Table.Fields }}
 						{{- if not .IsSequence -}}
@@ -758,10 +758,10 @@ func NewUpdatable{{ $t.GoName }}Model(
 						{{ end -}}
 					{{ end }}
 				),
-				dioq.VALUES(
+				qbik.VALUES(
 					valueSetList...
 				),
-				dioq.RETURNING(
+				qbik.RETURNING(
 					{{ $i.Table.GoName }}Table.{{ .GoName }},
 				),
 			)
@@ -787,23 +787,23 @@ func NewUpdatable{{ $t.GoName }}Model(
 			updatableModel *Updatable{{ $i.Table.GoName }}Model,
 			{{ .GoName }} {{ .Type }},
 		) (sql.Result, error) {
-			valuesSetList := []dioq.Statement{}
+			valuesSetList := []qbik.Statement{}
 
 			{{ range $i.Table.Fields -}}
 				if updatableModel.{{ .GoName }} != nil {
-					valuesSetList = append(valuesSetList, dioq.SET_VALUE({{ $i.Table.GoName }}Table.{{ .GoName }}, *updatableModel.{{ .GoName }}))
+					valuesSetList = append(valuesSetList, qbik.SET_VALUE({{ $i.Table.GoName }}Table.{{ .GoName }}, *updatableModel.{{ .GoName }}))
 				}
 			{{ end }}
 
-			query, err := dioq.Query(
-				dioq.UPDATE(
+			query, err := qbik.Query(
+				qbik.UPDATE(
 					{{ $i.Table.GoName }}Table,
 				),
-				dioq.SET(
+				qbik.SET(
 					valuesSetList...,
 				),
-				dioq.WHERE(
-					dioq.EQUAL({{ $i.Table.GoName }}Table.{{ .GoName }}, {{ .GoName }}),
+				qbik.WHERE(
+					qbik.EQUAL({{ $i.Table.GoName }}Table.{{ .GoName }}, {{ .GoName }}),
 				),
 			)
 			if err != nil {

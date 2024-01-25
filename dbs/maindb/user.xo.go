@@ -9,45 +9,45 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Dionid/go-boiler/pkg/dioq"
+	"github.com/Dionid/go-boiler/pkg/qbik"
 	"github.com/google/uuid"
 )
 
 type UserTableSt struct {
-	dioq.Table
-	ID        dioq.Column[uuid.UUID]
-	Email     dioq.Column[string]
-	Password  dioq.Column[string]
-	CreatedAt dioq.Column[time.Time]
-	UpdatedAt dioq.Column[sql.NullTime]
-	Role      dioq.Column[string]
+	qbik.Table
+	ID        qbik.Column[uuid.UUID]
+	Email     qbik.Column[string]
+	Password  qbik.Column[string]
+	CreatedAt qbik.Column[time.Time]
+	UpdatedAt qbik.Column[sql.NullTime]
+	Role      qbik.Column[string]
 }
 
 func (t UserTableSt) As(alias string) UserTableSt {
 	t.Table.TableAlias = fmt.Sprintf(`"%s"`, alias)
-	t.ID = dioq.NewColumnWithAlias[uuid.UUID](t.Table, t.ID.ColumnName, t.ID.ColumnAlias)
-	t.Email = dioq.NewColumnWithAlias[string](t.Table, t.Email.ColumnName, t.Email.ColumnAlias)
-	t.Password = dioq.NewColumnWithAlias[string](t.Table, t.Password.ColumnName, t.Password.ColumnAlias)
-	t.CreatedAt = dioq.NewColumnWithAlias[time.Time](t.Table, t.CreatedAt.ColumnName, t.CreatedAt.ColumnAlias)
-	t.UpdatedAt = dioq.NewColumnWithAlias[sql.NullTime](t.Table, t.UpdatedAt.ColumnName, t.UpdatedAt.ColumnAlias)
-	t.Role = dioq.NewColumnWithAlias[string](t.Table, t.Role.ColumnName, t.Role.ColumnAlias)
+	t.ID = qbik.NewColumnWithAlias[uuid.UUID](t.Table, t.ID.ColumnName, t.ID.ColumnAlias)
+	t.Email = qbik.NewColumnWithAlias[string](t.Table, t.Email.ColumnName, t.Email.ColumnAlias)
+	t.Password = qbik.NewColumnWithAlias[string](t.Table, t.Password.ColumnName, t.Password.ColumnAlias)
+	t.CreatedAt = qbik.NewColumnWithAlias[time.Time](t.Table, t.CreatedAt.ColumnName, t.CreatedAt.ColumnAlias)
+	t.UpdatedAt = qbik.NewColumnWithAlias[sql.NullTime](t.Table, t.UpdatedAt.ColumnName, t.UpdatedAt.ColumnAlias)
+	t.Role = qbik.NewColumnWithAlias[string](t.Table, t.Role.ColumnName, t.Role.ColumnAlias)
 
 	return t
 }
 
-var UserTableBase = dioq.Table{
+var UserTableBase = qbik.Table{
 	TableName:  `"user"`,
 	TableAlias: `"user"`,
 }
 
 var UserTable = UserTableSt{
 	Table:     UserTableBase,
-	ID:        dioq.NewColumn[uuid.UUID](UserTableBase, `"id"`),
-	Email:     dioq.NewColumn[string](UserTableBase, `"email"`),
-	Password:  dioq.NewColumn[string](UserTableBase, `"password"`),
-	CreatedAt: dioq.NewColumn[time.Time](UserTableBase, `"created_at"`),
-	UpdatedAt: dioq.NewColumn[sql.NullTime](UserTableBase, `"updated_at"`),
-	Role:      dioq.NewColumn[string](UserTableBase, `"role"`),
+	ID:        qbik.NewColumn[uuid.UUID](UserTableBase, `"id"`),
+	Email:     qbik.NewColumn[string](UserTableBase, `"email"`),
+	Password:  qbik.NewColumn[string](UserTableBase, `"password"`),
+	CreatedAt: qbik.NewColumn[time.Time](UserTableBase, `"created_at"`),
+	UpdatedAt: qbik.NewColumn[sql.NullTime](UserTableBase, `"updated_at"`),
+	Role:      qbik.NewColumn[string](UserTableBase, `"role"`),
 }
 
 // # Constants
@@ -137,25 +137,25 @@ func InsertIntoUserTable(
 		return nil, errors.New("InsertableUserModel is nil")
 	}
 
-	valueSetList := make([]dioq.ValuesSetSt, len(modelsList))
+	valueSetList := make([]qbik.ValuesSetSt, len(modelsList))
 
 	for i, model := range modelsList {
 		if model == nil {
 			return nil, errors.New("InsertableUserModel is nil")
 		}
 
-		valueSetList[i] = dioq.ValueSet(
-			dioq.VALUE(UserTable.ID, model.ID),
-			dioq.VALUE(UserTable.Email, model.Email),
-			dioq.VALUE(UserTable.Password, model.Password),
-			dioq.VALUE(UserTable.CreatedAt, model.CreatedAt),
-			dioq.VALUE(UserTable.UpdatedAt, model.UpdatedAt),
-			dioq.VALUE(UserTable.Role, model.Role),
+		valueSetList[i] = qbik.ValueSet(
+			qbik.VALUE(UserTable.ID, model.ID),
+			qbik.VALUE(UserTable.Email, model.Email),
+			qbik.VALUE(UserTable.Password, model.Password),
+			qbik.VALUE(UserTable.CreatedAt, model.CreatedAt),
+			qbik.VALUE(UserTable.UpdatedAt, model.UpdatedAt),
+			qbik.VALUE(UserTable.Role, model.Role),
 		)
 	}
 
-	query, err := dioq.Query(
-		dioq.INSERT_INTO(
+	query, err := qbik.Query(
+		qbik.INSERT_INTO(
 			UserTable,
 			UserTable.ID,
 			UserTable.Email,
@@ -164,7 +164,7 @@ func InsertIntoUserTable(
 			UserTable.UpdatedAt,
 			UserTable.Role,
 		),
-		dioq.VALUES(
+		qbik.VALUES(
 			valueSetList...,
 		),
 	)
@@ -184,25 +184,25 @@ func InsertIntoUserTableReturningAll(
 		return nil, errors.New("InsertableUserModel is nil")
 	}
 
-	valueSetList := make([]dioq.ValuesSetSt, len(modelsList))
+	valueSetList := make([]qbik.ValuesSetSt, len(modelsList))
 
 	for i, model := range modelsList {
 		if model == nil {
 			return nil, errors.New("InsertableUserModel is nil")
 		}
 
-		valueSetList[i] = dioq.ValueSet(
-			dioq.VALUE(UserTable.ID, model.ID),
-			dioq.VALUE(UserTable.Email, model.Email),
-			dioq.VALUE(UserTable.Password, model.Password),
-			dioq.VALUE(UserTable.CreatedAt, model.CreatedAt),
-			dioq.VALUE(UserTable.UpdatedAt, model.UpdatedAt),
-			dioq.VALUE(UserTable.Role, model.Role),
+		valueSetList[i] = qbik.ValueSet(
+			qbik.VALUE(UserTable.ID, model.ID),
+			qbik.VALUE(UserTable.Email, model.Email),
+			qbik.VALUE(UserTable.Password, model.Password),
+			qbik.VALUE(UserTable.CreatedAt, model.CreatedAt),
+			qbik.VALUE(UserTable.UpdatedAt, model.UpdatedAt),
+			qbik.VALUE(UserTable.Role, model.Role),
 		)
 	}
 
-	query, err := dioq.Query(
-		dioq.INSERT_INTO(
+	query, err := qbik.Query(
+		qbik.INSERT_INTO(
 			UserTable,
 			UserTable.ID,
 			UserTable.Email,
@@ -211,10 +211,10 @@ func InsertIntoUserTableReturningAll(
 			UserTable.UpdatedAt,
 			UserTable.Role,
 		),
-		dioq.VALUES(
+		qbik.VALUES(
 			valueSetList...,
 		),
-		dioq.RETURNING(UserTable.AllColumns()),
+		qbik.RETURNING(UserTable.AllColumns()),
 	)
 	if err != nil {
 		return nil, err
@@ -272,15 +272,15 @@ func SelectUserTableByEmail(
 	db DB,
 	Email string,
 ) (*UserModel, error) {
-	query, err := dioq.Query(
-		dioq.SELECT(
+	query, err := qbik.Query(
+		qbik.SELECT(
 			UserTable.AllColumns(),
 		),
-		dioq.FROM(UserTable),
-		dioq.WHERE(
-			dioq.EQUAL(UserTable.Email, Email),
+		qbik.FROM(UserTable),
+		qbik.WHERE(
+			qbik.EQUAL(UserTable.Email, Email),
 		),
-		dioq.LIMIT(1),
+		qbik.LIMIT(1),
 	)
 	if err != nil {
 		return nil, err
@@ -309,12 +309,12 @@ func DeleteFromUserTableByEmail(
 	db DB,
 	Email string,
 ) (sql.Result, error) {
-	query, err := dioq.Query(
-		dioq.DELETE_FROM(
+	query, err := qbik.Query(
+		qbik.DELETE_FROM(
 			UserTable,
 		),
-		dioq.WHERE(
-			dioq.EQUAL(UserTable.Email, Email),
+		qbik.WHERE(
+			qbik.EQUAL(UserTable.Email, Email),
 		),
 	)
 	if err != nil {
@@ -333,25 +333,25 @@ func InsertIntoUserTableReturningEmail(
 		return nil, errors.New("InsertIntoUserTableReturningEmailResult is nil")
 	}
 
-	valueSetList := make([]dioq.ValuesSetSt, len(modelsList))
+	valueSetList := make([]qbik.ValuesSetSt, len(modelsList))
 
 	for i, model := range modelsList {
 		if model == nil {
 			return nil, errors.New("InsertableUserModel is nil")
 		}
 
-		valueSetList[i] = dioq.ValueSet(
-			dioq.VALUE(UserTable.ID, model.ID),
-			dioq.VALUE(UserTable.Email, model.Email),
-			dioq.VALUE(UserTable.Password, model.Password),
-			dioq.VALUE(UserTable.CreatedAt, model.CreatedAt),
-			dioq.VALUE(UserTable.UpdatedAt, model.UpdatedAt),
-			dioq.VALUE(UserTable.Role, model.Role),
+		valueSetList[i] = qbik.ValueSet(
+			qbik.VALUE(UserTable.ID, model.ID),
+			qbik.VALUE(UserTable.Email, model.Email),
+			qbik.VALUE(UserTable.Password, model.Password),
+			qbik.VALUE(UserTable.CreatedAt, model.CreatedAt),
+			qbik.VALUE(UserTable.UpdatedAt, model.UpdatedAt),
+			qbik.VALUE(UserTable.Role, model.Role),
 		)
 	}
 
-	query, err := dioq.Query(
-		dioq.INSERT_INTO(
+	query, err := qbik.Query(
+		qbik.INSERT_INTO(
 			UserTable,
 			UserTable.ID,
 			UserTable.Email,
@@ -360,10 +360,10 @@ func InsertIntoUserTableReturningEmail(
 			UserTable.UpdatedAt,
 			UserTable.Role,
 		),
-		dioq.VALUES(
+		qbik.VALUES(
 			valueSetList...,
 		),
-		dioq.RETURNING(
+		qbik.RETURNING(
 			UserTable.Email,
 		),
 	)
@@ -389,36 +389,36 @@ func UpdateUserTableByEmail(
 	updatableModel *UpdatableUserModel,
 	Email string,
 ) (sql.Result, error) {
-	valuesSetList := []dioq.Statement{}
+	valuesSetList := []qbik.Statement{}
 
 	if updatableModel.ID != nil {
-		valuesSetList = append(valuesSetList, dioq.SET_VALUE(UserTable.ID, *updatableModel.ID))
+		valuesSetList = append(valuesSetList, qbik.SET_VALUE(UserTable.ID, *updatableModel.ID))
 	}
 	if updatableModel.Email != nil {
-		valuesSetList = append(valuesSetList, dioq.SET_VALUE(UserTable.Email, *updatableModel.Email))
+		valuesSetList = append(valuesSetList, qbik.SET_VALUE(UserTable.Email, *updatableModel.Email))
 	}
 	if updatableModel.Password != nil {
-		valuesSetList = append(valuesSetList, dioq.SET_VALUE(UserTable.Password, *updatableModel.Password))
+		valuesSetList = append(valuesSetList, qbik.SET_VALUE(UserTable.Password, *updatableModel.Password))
 	}
 	if updatableModel.CreatedAt != nil {
-		valuesSetList = append(valuesSetList, dioq.SET_VALUE(UserTable.CreatedAt, *updatableModel.CreatedAt))
+		valuesSetList = append(valuesSetList, qbik.SET_VALUE(UserTable.CreatedAt, *updatableModel.CreatedAt))
 	}
 	if updatableModel.UpdatedAt != nil {
-		valuesSetList = append(valuesSetList, dioq.SET_VALUE(UserTable.UpdatedAt, *updatableModel.UpdatedAt))
+		valuesSetList = append(valuesSetList, qbik.SET_VALUE(UserTable.UpdatedAt, *updatableModel.UpdatedAt))
 	}
 	if updatableModel.Role != nil {
-		valuesSetList = append(valuesSetList, dioq.SET_VALUE(UserTable.Role, *updatableModel.Role))
+		valuesSetList = append(valuesSetList, qbik.SET_VALUE(UserTable.Role, *updatableModel.Role))
 	}
 
-	query, err := dioq.Query(
-		dioq.UPDATE(
+	query, err := qbik.Query(
+		qbik.UPDATE(
 			UserTable,
 		),
-		dioq.SET(
+		qbik.SET(
 			valuesSetList...,
 		),
-		dioq.WHERE(
-			dioq.EQUAL(UserTable.Email, Email),
+		qbik.WHERE(
+			qbik.EQUAL(UserTable.Email, Email),
 		),
 	)
 	if err != nil {
@@ -434,15 +434,15 @@ func SelectUserTableByID(
 	db DB,
 	ID uuid.UUID,
 ) (*UserModel, error) {
-	query, err := dioq.Query(
-		dioq.SELECT(
+	query, err := qbik.Query(
+		qbik.SELECT(
 			UserTable.AllColumns(),
 		),
-		dioq.FROM(UserTable),
-		dioq.WHERE(
-			dioq.EQUAL(UserTable.ID, ID),
+		qbik.FROM(UserTable),
+		qbik.WHERE(
+			qbik.EQUAL(UserTable.ID, ID),
 		),
-		dioq.LIMIT(1),
+		qbik.LIMIT(1),
 	)
 	if err != nil {
 		return nil, err
@@ -471,12 +471,12 @@ func DeleteFromUserTableByID(
 	db DB,
 	ID uuid.UUID,
 ) (sql.Result, error) {
-	query, err := dioq.Query(
-		dioq.DELETE_FROM(
+	query, err := qbik.Query(
+		qbik.DELETE_FROM(
 			UserTable,
 		),
-		dioq.WHERE(
-			dioq.EQUAL(UserTable.ID, ID),
+		qbik.WHERE(
+			qbik.EQUAL(UserTable.ID, ID),
 		),
 	)
 	if err != nil {
@@ -495,25 +495,25 @@ func InsertIntoUserTableReturningID(
 		return nil, errors.New("InsertIntoUserTableReturningIDResult is nil")
 	}
 
-	valueSetList := make([]dioq.ValuesSetSt, len(modelsList))
+	valueSetList := make([]qbik.ValuesSetSt, len(modelsList))
 
 	for i, model := range modelsList {
 		if model == nil {
 			return nil, errors.New("InsertableUserModel is nil")
 		}
 
-		valueSetList[i] = dioq.ValueSet(
-			dioq.VALUE(UserTable.ID, model.ID),
-			dioq.VALUE(UserTable.Email, model.Email),
-			dioq.VALUE(UserTable.Password, model.Password),
-			dioq.VALUE(UserTable.CreatedAt, model.CreatedAt),
-			dioq.VALUE(UserTable.UpdatedAt, model.UpdatedAt),
-			dioq.VALUE(UserTable.Role, model.Role),
+		valueSetList[i] = qbik.ValueSet(
+			qbik.VALUE(UserTable.ID, model.ID),
+			qbik.VALUE(UserTable.Email, model.Email),
+			qbik.VALUE(UserTable.Password, model.Password),
+			qbik.VALUE(UserTable.CreatedAt, model.CreatedAt),
+			qbik.VALUE(UserTable.UpdatedAt, model.UpdatedAt),
+			qbik.VALUE(UserTable.Role, model.Role),
 		)
 	}
 
-	query, err := dioq.Query(
-		dioq.INSERT_INTO(
+	query, err := qbik.Query(
+		qbik.INSERT_INTO(
 			UserTable,
 			UserTable.ID,
 			UserTable.Email,
@@ -522,10 +522,10 @@ func InsertIntoUserTableReturningID(
 			UserTable.UpdatedAt,
 			UserTable.Role,
 		),
-		dioq.VALUES(
+		qbik.VALUES(
 			valueSetList...,
 		),
-		dioq.RETURNING(
+		qbik.RETURNING(
 			UserTable.ID,
 		),
 	)
@@ -551,36 +551,36 @@ func UpdateUserTableByID(
 	updatableModel *UpdatableUserModel,
 	ID uuid.UUID,
 ) (sql.Result, error) {
-	valuesSetList := []dioq.Statement{}
+	valuesSetList := []qbik.Statement{}
 
 	if updatableModel.ID != nil {
-		valuesSetList = append(valuesSetList, dioq.SET_VALUE(UserTable.ID, *updatableModel.ID))
+		valuesSetList = append(valuesSetList, qbik.SET_VALUE(UserTable.ID, *updatableModel.ID))
 	}
 	if updatableModel.Email != nil {
-		valuesSetList = append(valuesSetList, dioq.SET_VALUE(UserTable.Email, *updatableModel.Email))
+		valuesSetList = append(valuesSetList, qbik.SET_VALUE(UserTable.Email, *updatableModel.Email))
 	}
 	if updatableModel.Password != nil {
-		valuesSetList = append(valuesSetList, dioq.SET_VALUE(UserTable.Password, *updatableModel.Password))
+		valuesSetList = append(valuesSetList, qbik.SET_VALUE(UserTable.Password, *updatableModel.Password))
 	}
 	if updatableModel.CreatedAt != nil {
-		valuesSetList = append(valuesSetList, dioq.SET_VALUE(UserTable.CreatedAt, *updatableModel.CreatedAt))
+		valuesSetList = append(valuesSetList, qbik.SET_VALUE(UserTable.CreatedAt, *updatableModel.CreatedAt))
 	}
 	if updatableModel.UpdatedAt != nil {
-		valuesSetList = append(valuesSetList, dioq.SET_VALUE(UserTable.UpdatedAt, *updatableModel.UpdatedAt))
+		valuesSetList = append(valuesSetList, qbik.SET_VALUE(UserTable.UpdatedAt, *updatableModel.UpdatedAt))
 	}
 	if updatableModel.Role != nil {
-		valuesSetList = append(valuesSetList, dioq.SET_VALUE(UserTable.Role, *updatableModel.Role))
+		valuesSetList = append(valuesSetList, qbik.SET_VALUE(UserTable.Role, *updatableModel.Role))
 	}
 
-	query, err := dioq.Query(
-		dioq.UPDATE(
+	query, err := qbik.Query(
+		qbik.UPDATE(
 			UserTable,
 		),
-		dioq.SET(
+		qbik.SET(
 			valuesSetList...,
 		),
-		dioq.WHERE(
-			dioq.EQUAL(UserTable.ID, ID),
+		qbik.WHERE(
+			qbik.EQUAL(UserTable.ID, ID),
 		),
 	)
 	if err != nil {

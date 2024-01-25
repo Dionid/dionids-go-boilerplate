@@ -49,12 +49,12 @@ migrate-maindb-create:
 introspect-maindb-schema:
 	cd ./scripts/export-schema && go run .
 
-instrospect-maindb-dioq:
+instrospect-maindb-qbik:
 	./pkg/xo/xo --config ${MAIN_DB_PATH}/xo.config.yaml schema ${MAIN_DB_PG}
 
 introspect-and-generate-maindb:
 	make introspect-maindb-schema
-	make instrospect-maindb-dioq
+	make instrospect-maindb-qbik
 	make generate-sqlc
 
 # Run

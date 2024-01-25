@@ -760,7 +760,7 @@ var pqArrMapping = map[string]string{
 	"int32":     "pq.Int32Array",
 	"string":    "pq.StringArray",
 	"int":       "pq.Int32Array",
-	"uuid.UUID": "dioq.UUIDArray",
+	"uuid.UUID": "qbik.UUIDArray",
 	// default: "pq.GenericArray"
 }
 

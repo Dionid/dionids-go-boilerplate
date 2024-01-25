@@ -20,7 +20,7 @@
 
 1. FOP
 1. DB
-    1. Fully typed-safe SQL (raw sql on sqlc + query builder on dioq)
+    1. Fully typed-safe SQL (raw sql on sqlc + query builder on qbik)
     1. Migrations
     1. Introspection
 1. Protobuf
@@ -37,7 +37,7 @@
 # Stack
 
 1. DB
-    1. dioq
+    1. qbik
     1. sqlc
     1. xo
     1. pg
@@ -86,7 +86,7 @@
 1. When you need SQL:
     1. You have options
         1. If static SQL
-            1. Use generated dioq: `mainDb.${operation}${table_name}${something_else}(ctx, db, ...${args})`
+            1. Use generated qbik: `mainDb.${operation}${table_name}${something_else}(ctx, db, ...${args})`
             1. Use generated sqlc:`deps.mainDbQueries.${operation}${table_name}${something_else}(ctx, ...${args})`
             1. Use raw sql to sqlc
                 1. Create `features/${feature_name}.mainDb.sql`
@@ -94,7 +94,7 @@
                 1. Run `make generate-sqlc`
                 1. Use generated sqlc:`deps.mainDbQueries.${operation}${table_name}${something_else}(ctx, ...${args})`
         1. If dynamic SQL
-            1. User dioq as QueryBuilder (examples in `/pkg/dioq/dioq_test.go`)
+            1. User qbik as QueryBuilder (examples in `/pkg/qbik/qbik_test.go`)
     1. Run `make maindb-introspect-and-generate`
 1. Add method to `cmd/core/http/grpc.go`
 1. Run `make run`
