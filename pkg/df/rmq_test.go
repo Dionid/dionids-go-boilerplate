@@ -28,7 +28,7 @@ func TestIntRmqTransport(t *testing.T) {
 
 	rmqTransport, err := df.NewRmqTransport(
 		func(transport df.RmqTransport) (df.RmqTransport, error) {
-			transport.ConnectionString = testConfig.RmqConnectionString
+			transport.ConnectionString = testConfig.RmqConnection
 
 			return transport, nil
 		},

@@ -25,8 +25,8 @@ func SignUp(ctx context.Context, deps *features.Deps, request *proto.SignUpCallR
 	}
 
 	// # Query user
-	user, err := maindb.SelectUserTableByEmail(ctx, deps.MainDb, request.Params.Email)
-	if user != nil {
+	userExists, _ := maindb.SelectUserTableByEmail(ctx, deps.MainDb, request.Params.Email)
+	if userExists != nil {
 		return nil, terrors.NewValidationError("Incorrect email or password", nil)
 	}
 
@@ -50,7 +50,7 @@ func SignUp(ctx context.Context, deps *features.Deps, request *proto.SignUpCallR
 		return nil, terrors.NewPrivateError("in insert user")
 	}
 
-	tokenString, err := auth.CreateToken(deps.Config.JwtSecret, deps.Config.ExpireInSeconds, user.ID, user.Role)
+	tokenString, err := auth.CreateToken(deps.Config.JwtSecret, deps.Config.ExpireInSeconds, newUser.ID, newUser.Role)
 	if err != nil {
 		return nil, terrors.NewPrivateError("in create token")
 	}

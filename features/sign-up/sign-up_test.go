@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/Dionid/go-boiler/api/v1/go/proto"
+	"github.com/Dionid/go-boiler/dbs/maindb"
 	"github.com/Dionid/go-boiler/features"
 	fsignup "github.com/Dionid/go-boiler/features/sign-up"
 	inttests "github.com/Dionid/go-boiler/internal/int-tests"
@@ -28,7 +29,7 @@ func TestIntSignUp(t *testing.T) {
 			}
 		})
 
-		seed, err := inttests.Seed(ctx,
+		_, err = inttests.Seed(ctx,
 			testDeps.FeaturesConfig, testDeps.MainDbConnection)
 		if err != nil {
 			t.Fatal(err)
@@ -46,7 +47,7 @@ func TestIntSignUp(t *testing.T) {
 			Name: "SignIn",
 			Id:   uuid.New().String(),
 			Params: &proto.SignUpCallRequest_Params{
-				Email:    seed.User.Email,
+				Email:    "new@email.com",
 				Password: "1234",
 			},
 		}
@@ -58,6 +59,19 @@ func TestIntSignUp(t *testing.T) {
 
 		if resp.Result == nil {
 			t.Fatal("result is not ok")
+		}
+
+		newUser, err := maindb.SelectUserTableByEmail(ctx, testDeps.MainDbConnection, request.Params.Email)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if newUser == nil {
+			t.Fatal("new user is nil")
+		}
+
+		if newUser.Email != request.Params.Email {
+			t.Fatal("new user id is not equal to request email")
 		}
 	})
 }

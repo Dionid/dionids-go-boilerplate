@@ -2,7 +2,7 @@ version: '3.9'
 name: go-boiler-int-test
 services:
   rabbitmq-test:
-    container_name: 'main-db-rmq-test'
+    container_name: 'rmq-test'
     image: 'rabbitmq:3-management'
     ports:
       - 5692:5672
@@ -24,4 +24,4 @@ services:
       POSTGRES_HOST: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: go-boiler-main-db
+      POSTGRES_DB: go-boiler

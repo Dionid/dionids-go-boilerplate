@@ -103,9 +103,17 @@
 
 # How to create Feature integration tests
 
-1. Create `features/${feature_name}_test.go` from `features/test-template_test.go`
+1. Create `features/${feature_name}/${feature_name}_test.go` from `features/test-template_test.go`
 1. !!! All integration tests functions must be named as `TestInt`
-1. `make int-test` (run 2 or 3 times if docker containers were restarted)
+1. `make test-int` (run 2 or 3 times if docker containers were restarted)
+1. ???
+1. Profit
+
+# How to create Feature unit tests
+
+1. Create `features/${feature_name}/${feature_name}_test.go`
+1. !!! All integration tests functions must be named as `TestUnit`
+1. `make test-unit` (run 2 or 3 times if docker containers were restarted)
 1. ???
 1. Profit
 

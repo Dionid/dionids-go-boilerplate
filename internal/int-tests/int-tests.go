@@ -109,7 +109,7 @@ func InitTestDeps(ctx context.Context) (*TestDeps, error) {
 
 	rmqTransport, err := df.NewRmqTransport(
 		func(transport df.RmqTransport) (df.RmqTransport, error) {
-			transport.ConnectionString = config.RmqConnectionString
+			transport.ConnectionString = config.RmqConnection
 
 			return transport, nil
 		},
