@@ -126,6 +126,10 @@
 
 # Libs
 
+## DF
+
+Distribution Functions are framework for building microservices. Work still is in progress.
+
 ## QBik
 
 QBik is a Query Builder for SQL. It is used to build dynamic, but type-safe SQL queries.

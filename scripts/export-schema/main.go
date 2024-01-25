@@ -43,8 +43,6 @@ func main() {
 
 	os.WriteFile(fmt.Sprintf("%s/schema.sql", exportTo), res, 0644)
 
-	log.Println(string(res))
-
 	if err != nil {
 		log.Fatalln(err)
 	}
