@@ -123,3 +123,25 @@
 1. Write migrations in `/dbs/maindb/migrations/${timestamp}_${migration_name}.sql`
 1. Run `make maindb-migrate-up`
 1. Run `make maindb-introspect-and-generate`
+
+# Libs
+
+## QBik
+
+QBik is a Query Builder for SQL. It is used to build dynamic, but type-safe SQL queries.
+
+It introspects your database and generates code for you, based on `xo` and `sqlx``:
+
+1. Structures, types and enums
+1. Constant names like table and column names
+1. SELECT on primary key, unique key, foreign key, compound index
+1. UPDATE on primary key, unique key, foreign key, compound index
+1. INSERT with returning on primary key, unique key, foreign key, compound index or without
+
+All details and examples are inside `pkg/qbik`
+
+## Terrors
+
+Typed Errors stack-based serializable errors for simple error handling.
+
+Extend your custom errors by `BaseErrorSt` / `PublicError` / `PrivateError`.

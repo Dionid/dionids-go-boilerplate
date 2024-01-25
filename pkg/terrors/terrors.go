@@ -6,7 +6,7 @@ import (
 )
 
 type Error interface {
-	IsGobError()
+	IsTError()
 	Error() string
 	GetCode() int
 	GetPublicMessage() string
@@ -21,7 +21,7 @@ type BaseErrorSt struct {
 	Data           any
 }
 
-func (e BaseErrorSt) IsGobError() {}
+func (e BaseErrorSt) IsTError() {}
 
 func (e BaseErrorSt) Error() string {
 	return fmt.Sprintf("%d %s", e.Code, e.PublicMessage)

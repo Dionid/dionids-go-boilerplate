@@ -7,7 +7,7 @@ import (
 	"github.com/Dionid/go-boiler/pkg/terrors"
 )
 
-func TestXxx(t *testing.T) {
+func TestTerrors(t *testing.T) {
 	err := terrors.NewPrivateError("some message")
 
 	switch any(err).(type) {
