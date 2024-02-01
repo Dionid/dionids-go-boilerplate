@@ -1,3 +1,5 @@
+# Dionid Go boilerplate
+
 # Prerequisites
 
 1. Create `.env` from `.env.example`
