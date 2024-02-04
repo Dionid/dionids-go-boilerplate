@@ -1,4 +1,4 @@
-# Dionid Go boilerplate
+# Dionids Go boilerplate
 
 # Prerequisites
 
@@ -151,3 +151,9 @@ All details and examples are inside `pkg/qbik`
 Typed Errors stack-based serializable errors for simple error handling.
 
 Extend your custom errors by `BaseErrorSt` / `PublicError` / `PrivateError`.
+
+# Useful links
+
+1. https://github.com/golang-standards/project-layout
+1. https://fop.davidshekunts.ru/
+1. https://fdd.davidshekunts.ru/
