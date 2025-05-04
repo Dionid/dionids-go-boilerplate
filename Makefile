@@ -1,7 +1,8 @@
 include .env
 export $(shell sed 's/=.*//' .env)
 
-BINARY_NAME=go-boiler
+PROJECT_NAME=gp-boiler
+BINARY_NAME=${PROJECT_NAME}
 
 MAIN_DB_PATH=./dbs/maindb
 MAIN_DB_PG="postgres://${MAIN_PG_USERNAME}:${MAIN_PG_PASSWORD}@${MAIN_PG_HOST}:${MAIN_PG_PORT}/${MAIN_PG_DB}?sslmode=disable"
@@ -131,28 +132,28 @@ clean:
 
 generate-protobuf-schema:
 	protoc \
-		-I=./proto/go-boiler \
+		-I=./proto/${PROJECT_NAME} \
 		-I=./proto/ \
 		--go-grpc_out=api/v1/go/proto \
 		--go_out=api/v1/go/proto \
 		--go_opt paths=source_relative \
 		--go-grpc_opt paths=source_relative \
-		./proto/go-boiler/*
+		./proto/${PROJECT_NAME}/*
 	protoc-go-inject-tag -input="./api/v1/go/proto/*.pb.go"
 
 generate-protobuf-gateway:
 	protoc \
-		-I=./proto/go-boiler \
+		-I=./proto/${PROJECT_NAME} \
 		-I=./proto/ \
 		--grpc-gateway_out=api/v1/go/proto \
 		--grpc-gateway_opt paths=source_relative \
 		--grpc-gateway_opt logtostderr=true \
-		./proto/go-boiler/*
+		./proto/${PROJECT_NAME}/*
 
 generate-protobuf-openapi:
 	protoc \
-		./proto/go-boiler/calls.proto \
-		-I=./proto/go-boiler \
+		./proto/${PROJECT_NAME}/calls.proto \
+		-I=./proto/${PROJECT_NAME} \
 		-I=./proto/ \
 		--openapi_out=./api/v1/http
 

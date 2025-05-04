@@ -11,7 +11,7 @@
 
 # How to start
 
-1. Rename `go-boiler` in `go.mod`, `proto/go-boiler` to name of your project
+1. Rename `go-boiler` in `go.mod`, `proto/go-boiler`, and `PROJECT_NAME` in `Makefile` to name of your project
 1. Rename `cmd/core` to name of your app
 1. Create `/cmd/core/app.env` from `/cmd/core/app.env.example`
 1. `make run`
