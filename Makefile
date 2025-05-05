@@ -1,6 +1,14 @@
 include .env
 export $(shell sed 's/=.*//' .env)
 
+UNAME_S := $(shell uname -s)
+
+ifeq ($(OS),Windows_NT)
+    UNAME_S := Windows
+else
+    UNAME_S := $(shell uname -s)
+endif
+
 PROJECT_NAME=go-boiler
 BINARY_NAME=${PROJECT_NAME}
 
@@ -171,34 +179,23 @@ pre-commit:
 	git add ./go.mod
 	git add ./go.sum
 	make test-all
-	build
-	make build-mac
-	make clean-mac
+	make build
+	make clean
+
+# setup runs only once in the start of the project
 
 setup:
-	ifeq ($(UNAME_S),Linux)
-		apk update && apk add --no-cache make protobuf-dev && \
-		apk add --no-cache graphviz && \
-		apk add --no-cache grc &&
-
-	endif
-	ifeq ($(UNAME_S),Darwin)
-		brew install protobuf
-		brew install graphviz
-		brew install grc
-	endif
+ifeq ($(UNAME_S),Linux)
+	apk update
+	apk add --no-cache protobuf-dev graphviz grc
+endif
+ifeq ($(UNAME_S),Darwin)
+	brew install protobuf
+	brew install graphviz
+	brew install grc
+endif
 	echo "make pre-commit" > .git/hooks/pre-commit
 	chmod ug+x .git/hooks/pre-commit
 	cp -R ./for-setup/.grc/ ~/.grc
-	go install \
-		github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway \
-		github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2 \
-		google.golang.org/protobuf/cmd/protoc-gen-go \
-		google.golang.org/grpc/cmd/protoc-gen-go-grpc \
-		github.com/favadi/protoc-go-inject-tag@latest \
-		github.com/golangci/golangci-lint/cmd/golangci-lint@v1.54.2 \
-		github.com/nakabonne/ali@latest \
-		github.com/google/gnostic/cmd/protoc-gen-openapi@latest \
-		github.com/Dionid/sqli/cmd/sqli@latest
-	go install -mod=mod github.com/bufbuild/buf/cmd/buf
+	go mod tidy
 	make prepare

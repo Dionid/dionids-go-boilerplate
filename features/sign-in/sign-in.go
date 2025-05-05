@@ -23,7 +23,10 @@ func SignIn(ctx context.Context, deps *features.Deps, request *proto.SignInCallR
 
 	// # Query user
 	user, err := maindb.SelectUserByEmail(ctx, deps.MainDb, request.Params.Email)
-	if user != nil {
+	if err != nil {
+		return nil, terrors.NewPrivateError("Failed to query user")
+	}
+	if user == nil {
 		return nil, terrors.NewValidationError("Incorrect email or password", nil)
 	}
 
