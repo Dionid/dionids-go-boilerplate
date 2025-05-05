@@ -35,11 +35,10 @@ func TestIntSignIn(t *testing.T) {
 		}
 
 		featureDeps := &features.Deps{
-			Logger:        testDeps.Logger,
-			MainDb:        testDeps.MainDbConnection,
-			MainDbQueries: testDeps.MainDbQueries,
-			Config:        testDeps.FeaturesConfig,
-			RmqT:          testDeps.RmqTransport,
+			Logger: testDeps.Logger,
+			MainDb: testDeps.MainDbConnection,
+			Config: testDeps.FeaturesConfig,
+			RmqT:   testDeps.RmqTransport,
 		}
 
 		request := &proto.SignInCallRequest{

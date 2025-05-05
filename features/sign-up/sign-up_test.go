@@ -36,11 +36,10 @@ func TestIntSignUp(t *testing.T) {
 		}
 
 		featureDeps := &features.Deps{
-			Logger:        testDeps.Logger,
-			MainDb:        testDeps.MainDbConnection,
-			MainDbQueries: testDeps.MainDbQueries,
-			Config:        testDeps.FeaturesConfig,
-			RmqT:          testDeps.RmqTransport,
+			Logger: testDeps.Logger,
+			MainDb: testDeps.MainDbConnection,
+			Config: testDeps.FeaturesConfig,
+			RmqT:   testDeps.RmqTransport,
 		}
 
 		request := &proto.SignUpCallRequest{
@@ -61,7 +60,7 @@ func TestIntSignUp(t *testing.T) {
 			t.Fatal("result is not ok")
 		}
 
-		newUser, err := maindb.SelectUserTableByEmail(ctx, testDeps.MainDbConnection, request.Params.Email)
+		newUser, err := maindb.SelectUserByEmail(ctx, testDeps.MainDbConnection, request.Params.Email)
 		if err != nil {
 			t.Fatal(err)
 		}

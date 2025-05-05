@@ -25,7 +25,7 @@ func SignUp(ctx context.Context, deps *features.Deps, request *proto.SignUpCallR
 	}
 
 	// # Query user
-	userExists, _ := maindb.SelectUserTableByEmail(ctx, deps.MainDb, request.Params.Email)
+	userExists, _ := maindb.SelectUserByEmail(ctx, deps.MainDb, request.Params.Email)
 	if userExists != nil {
 		return nil, terrors.NewValidationError("Incorrect email or password", nil)
 	}
@@ -46,7 +46,7 @@ func SignUp(ctx context.Context, deps *features.Deps, request *proto.SignUpCallR
 		"client",
 	)
 
-	if _, err := maindb.InsertIntoUserTable(ctx, deps.MainDb, newUser); err != nil {
+	if _, err := maindb.InsertIntoUser(ctx, deps.MainDb, newUser); err != nil {
 		return nil, terrors.NewPrivateError("in insert user")
 	}
 

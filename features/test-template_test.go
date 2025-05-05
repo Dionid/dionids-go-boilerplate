@@ -43,7 +43,6 @@ func TestIntTemplate(t *testing.T) {
 		gwg,
 		gse,
 		testDeps.MainDbConnection,
-		testDeps.MainDbQueries,
 		testDeps.FeaturesConfig,
 		testDeps.RmqTransport,
 	}

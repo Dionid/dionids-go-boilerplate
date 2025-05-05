@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/Dionid/go-boiler/api/v1/go/proto"
+	"github.com/Dionid/go-boiler/dbs/maindb"
 	"github.com/Dionid/go-boiler/features"
 	"github.com/Dionid/go-boiler/internal/auth"
 	"github.com/Dionid/go-boiler/pkg/terrors"
@@ -21,8 +22,8 @@ func SignIn(ctx context.Context, deps *features.Deps, request *proto.SignInCallR
 	}
 
 	// # Query user
-	user, err := deps.MainDbQueries.SignInGetUser(ctx, request.Params.Email)
-	if err != nil {
+	user, err := maindb.SelectUserByEmail(ctx, deps.MainDb, request.Params.Email)
+	if user != nil {
 		return nil, terrors.NewValidationError("Incorrect email or password", nil)
 	}
 

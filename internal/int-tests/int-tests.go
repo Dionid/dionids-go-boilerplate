@@ -10,7 +10,6 @@ import (
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 
-	"github.com/Dionid/go-boiler/dbs/maindb"
 	"github.com/Dionid/go-boiler/features"
 	"github.com/Dionid/go-boiler/pkg/df"
 	"go.uber.org/zap"
@@ -20,7 +19,6 @@ type TestDeps struct {
 	Config           *TestConfig
 	Logger           *zap.Logger
 	MainDbConnection *sqlx.DB
-	MainDbQueries    *maindb.Queries
 	FeaturesConfig   features.Config
 	RmqTransport     *df.RmqTransport
 	Cleanup          func() error
@@ -105,8 +103,6 @@ func InitTestDeps(ctx context.Context) (*TestDeps, error) {
 		return nil, err
 	}
 
-	mainQueries := maindb.New(mainDbConnectionTemplate)
-
 	rmqTransport, err := df.NewRmqTransport(
 		func(transport df.RmqTransport) (df.RmqTransport, error) {
 			transport.ConnectionString = config.RmqConnection
@@ -124,7 +120,6 @@ func InitTestDeps(ctx context.Context) (*TestDeps, error) {
 		config,
 		logger,
 		mainDbConnectionTemplate,
-		mainQueries,
 		featuresConfig,
 		rmqTransport,
 		func() error {

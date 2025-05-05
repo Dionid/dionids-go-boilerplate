@@ -16,8 +16,6 @@ import (
 	_ "github.com/bufbuild/protovalidate-go"
 	_ "github.com/lib/pq"
 
-	"github.com/Dionid/go-boiler/dbs/maindb"
-
 	"github.com/Dionid/go-boiler/features"
 	fsignin "github.com/Dionid/go-boiler/features/sign-in"
 	"github.com/Dionid/go-boiler/pkg/terrors"
@@ -86,8 +84,6 @@ func main() {
 
 	mainPgPool.SetMaxOpenConns(10)
 
-	mainDbQueries := maindb.New(mainPgPool)
-
 	// # Init first admin
 	err = initFirstAdmin(ctx, config, mainPgPool)
 	if err != nil {
@@ -106,9 +102,8 @@ func main() {
 
 	// # Deps
 	deps := &features.Deps{
-		Logger:        logger,
-		MainDb:        mainPgPool,
-		MainDbQueries: mainDbQueries,
+		Logger: logger,
+		MainDb: mainPgPool,
 		Config: features.Config{
 			JwtSecret:       []byte(config.JwtSecret),
 			ExpireInSeconds: config.JwtExpireInSeconds,

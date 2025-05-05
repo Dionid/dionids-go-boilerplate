@@ -1,7 +1,7 @@
 include .env
 export $(shell sed 's/=.*//' .env)
 
-PROJECT_NAME=gp-boiler
+PROJECT_NAME=go-boiler
 BINARY_NAME=${PROJECT_NAME}
 
 MAIN_DB_PATH=./dbs/maindb
@@ -11,11 +11,6 @@ MAIN_DB_PG_TEST="postgres://${MAIN_PG_USERNAME_TEST}:${MAIN_PG_PASSWORD_TEST}@${
 migration-type=sql
 
 # DB
-
-## SQLC
-
-generate-sqlc:
-	sqlc generate .
 
 ## MIGRATIONS
 
@@ -47,16 +42,11 @@ migrate-maindb-create:
 
 ## INTROSPECT
 
-introspect-maindb-schema:
-	cd ./scripts/export-schema && go run .
-
-instrospect-maindb-qbik:
-	./pkg/xo/xo --config ${MAIN_DB_PATH}/xo.config.yaml schema ${MAIN_DB_PG}
+instrospect-maindb:
+	sqli generate -o dbs/maindb ${MAIN_DB_PG}
 
 introspect-and-generate-maindb:
-	make introspect-maindb-schema
-	make instrospect-maindb-qbik
-	make generate-sqlc
+	make instrospect-maindb
 
 # Run
 
@@ -110,7 +100,7 @@ lint:
 # Build
 
 build:
-	generate-protobuf
+	make generate-protobuf
 	make build-mac && make build-linux
 
 build-mac:
@@ -195,7 +185,6 @@ setup:
 	endif
 	echo "make pre-commit" > .git/hooks/pre-commit
 	chmod ug+x .git/hooks/pre-commit
-	go install github.com/Dionid/sqlc/cmd/sqlc@v1.22.0
 	brew install graphviz
 	brew install grc
 	cp -R ./for-setup/.grc/ ~/.grc
@@ -204,7 +193,7 @@ setup:
 	go install github.com/nakabonne/ali@latest
 	go install github.com/google/gnostic/cmd/protoc-gen-openapi@latest
 	go install -mod=mod github.com/bufbuild/buf/cmd/buf
-	cd ./pkg && rm -rf ./xo && git clone git@github.com:Dionid/xo.git && cd xo && go build . && cd ../..
+	go install github.com/Dionid/sqli/cmd/sqli@latest
 	cp ./scripts/export-schema/.maindb.env.example ./scripts/export-schema/.maindb.env
 	go install \
 		github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway \

@@ -3,7 +3,6 @@ package features
 import (
 	"sync"
 
-	"github.com/Dionid/go-boiler/dbs/maindb"
 	"github.com/Dionid/go-boiler/pkg/df"
 	"github.com/jmoiron/sqlx"
 	"go.uber.org/zap"
@@ -19,8 +18,7 @@ type Deps struct {
 	GlobalWg                *sync.WaitGroup
 	GracefulShutdownEmitter chan string
 
-	MainDb        *sqlx.DB
-	MainDbQueries *maindb.Queries
+	MainDb *sqlx.DB
 
 	Config Config
 

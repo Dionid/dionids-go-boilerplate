@@ -1,3 +1,0 @@
-src: ./pkg/qbik/xo
-out: ./dbs/maindb
-schema: public

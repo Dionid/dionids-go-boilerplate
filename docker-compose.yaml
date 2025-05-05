@@ -1,17 +1,5 @@
 version: '3.9'
 services:
-  rabbitmq:
-    image: 'rabbitmq:3-management'
-    ports:
-      - 56782:5672
-      - 15682:15672
-    environment:
-      RABBITMQ_DEFAULT_VHOST: go-boiler
-      RABBITMQ_DEFAULT_USER: go-boiler-user
-      RABBITMQ_DEFAULT_PASS: go-boiler-password
-    volumes:
-      - rabbitmq_data:/bitnami
-
   main-db-postgres:
     container_name: 'main-db-postgres'
     restart: always

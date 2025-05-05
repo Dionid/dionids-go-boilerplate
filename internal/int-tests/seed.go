@@ -40,7 +40,7 @@ func Seed(
 		"admin",
 	)
 
-	user, err := maindb.InsertIntoUserTableReturningAll(
+	user, err := maindb.InsertIntoUserReturningAll(
 		ctx,
 		mainConn,
 		userModel,
