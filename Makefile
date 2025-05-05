@@ -177,33 +177,28 @@ pre-commit:
 
 setup:
 	ifeq ($(UNAME_S),Linux)
-		apk update && apk add --no-cache make protobuf-dev
+		apk update && apk add --no-cache make protobuf-dev && \
+		apk add --no-cache graphviz && \
+		apk add --no-cache grc &&
+
 	endif
 	ifeq ($(UNAME_S),Darwin)
 		brew install protobuf
+		brew install graphviz
+		brew install grc
 	endif
 	echo "make pre-commit" > .git/hooks/pre-commit
 	chmod ug+x .git/hooks/pre-commit
-	brew install graphviz
-	brew install grc
 	cp -R ./for-setup/.grc/ ~/.grc
-	go install github.com/favadi/protoc-go-inject-tag@latest
-	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.54.2
-	go install github.com/nakabonne/ali@latest
-	go install github.com/google/gnostic/cmd/protoc-gen-openapi@latest
-	go install -mod=mod github.com/bufbuild/buf/cmd/buf
-	go install github.com/Dionid/sqli/cmd/sqli@latest
-	cp ./scripts/export-schema/.maindb.env.example ./scripts/export-schema/.maindb.env
 	go install \
 		github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway \
 		github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2 \
 		google.golang.org/protobuf/cmd/protoc-gen-go \
-		google.golang.org/grpc/cmd/protoc-gen-go-grpc
+		google.golang.org/grpc/cmd/protoc-gen-go-grpc \
+		github.com/favadi/protoc-go-inject-tag@latest \
+		github.com/golangci/golangci-lint/cmd/golangci-lint@v1.54.2 \
+		github.com/nakabonne/ali@latest \
+		github.com/google/gnostic/cmd/protoc-gen-openapi@latest \
+		github.com/Dionid/sqli/cmd/sqli@latest
 	go install -mod=mod github.com/bufbuild/buf/cmd/buf
 	make prepare
-
-# ----
-
-
-
-	
