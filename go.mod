@@ -15,7 +15,6 @@ require (
 	github.com/labstack/echo-contrib v0.17.3
 	github.com/labstack/echo/v4 v4.13.3
 	github.com/lib/pq v1.10.9
-	github.com/rabbitmq/amqp091-go v1.10.0
 	github.com/soheilhy/cmux v0.1.5
 	github.com/spf13/viper v1.20.1
 	github.com/stretchr/testify v1.10.0

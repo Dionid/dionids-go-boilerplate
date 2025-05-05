@@ -14,8 +14,8 @@
 
 1. API
     1. Protobuf
-    1. gRPC
-    1. gRPC to HTTP Gateway
+    1. gRPC Gateway
+    1. gRPC HTTP Gateway
     1. gRPC to Swagger
 1. DB
     1. Fully typed-safe SQL on [sqli](https://github.com/Dionid/sqli)
@@ -23,8 +23,9 @@
     1. Introspection
     1. PG
 1. [FOP](https://fop.davidshekunts.com)
+1. [FDD](https://fdd.davidshekunts.com)
 1. Error handling with [terrors](./pkg/terrors)
-1. Unit & Integration tests
+1. Unit & Integration tests with DB setup
 1. Graceful-shutdown
 1. pre-commit
 
