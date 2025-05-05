@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/Dionid/go-boiler/dbs/maindb"
-	"github.com/Dionid/go-boiler/pkg/ff"
 	"github.com/Dionid/go-boiler/pkg/terrors"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
@@ -14,7 +13,7 @@ import (
 )
 
 func initFirstAdmin(ctx context.Context, config *Config, db *sqlx.DB) terrors.Error {
-	userFound, err := maindb.SelectUserTableByEmail(ctx, db, config.FirstUserEmail)
+	userFound, err := maindb.SelectUserByEmail(ctx, db, config.FirstUserEmail)
 	if err != nil {
 		if !terrors.IsNotFoundErr(err) {
 			return terrors.NewDbErr(err)
@@ -42,12 +41,12 @@ func initFirstAdmin(ctx context.Context, config *Config, db *sqlx.DB) terrors.Er
 		"admin",
 	)
 
-	result, err := maindb.InsertIntoUserTable(ctx, db, newUser)
+	result, err := maindb.InsertIntoUser(ctx, db, newUser)
 	if err != nil {
 		return terrors.NewDbErr(err)
 	}
 
-	if ff.IgnoreError(result.RowsAffected()) != 1 {
+	if terrors.IgnoreError(result.RowsAffected()) != 1 {
 		return terrors.NewPrivateError("can't insert user")
 	}
 

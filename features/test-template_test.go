@@ -3,6 +3,7 @@ package features_test
 import (
 	"context"
 	"fmt"
+	"sync"
 	"testing"
 
 	"github.com/Dionid/go-boiler/features"
@@ -31,12 +32,18 @@ func TestIntTemplate(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	// # Global WaitGroup
+	gwg := &sync.WaitGroup{}
+
+	// # Graceful shutdown emitter
+	gse := make(chan string, 1)
+
 	featureDeps := &features.Deps{
 		testDeps.Logger,
+		gwg,
+		gse,
 		testDeps.MainDbConnection,
-		testDeps.MainDbQueries,
 		testDeps.FeaturesConfig,
-		testDeps.RmqTransport,
 	}
 
 	// # WRITE YOUR TEST HERE

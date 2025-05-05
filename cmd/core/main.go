@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,14 +11,10 @@ import (
 	"sync"
 	"syscall"
 
-	"github.com/Dionid/go-boiler/api/v1/go/proto"
 	_ "github.com/bufbuild/protovalidate-go"
 	_ "github.com/lib/pq"
 
-	"github.com/Dionid/go-boiler/dbs/maindb"
-
 	"github.com/Dionid/go-boiler/features"
-	fsignin "github.com/Dionid/go-boiler/features/sign-in"
 	"github.com/Dionid/go-boiler/pkg/terrors"
 	"github.com/jmoiron/sqlx"
 	"go.uber.org/zap"
@@ -60,13 +55,19 @@ func main() {
 
 	logger.Info("Starting")
 
-	// # Graceful shutdown sigs
-	sigs := make(chan os.Signal, 1)
+	// # Graceful shutdown emitter
+	gse := make(chan string, 1)
 
+	// ## Sub to SIGTERM and SIGINT
+	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, syscall.SIGTERM, syscall.SIGINT)
+	go func() {
+		sig := <-sigs
+		gse <- sig.String()
+	}()
 
 	// # Global WaitGroup
-	wg := sync.WaitGroup{}
+	gwg := &sync.WaitGroup{}
 
 	// # Global Context
 	ctx, cancel := context.WithCancel(context.Background())
@@ -80,8 +81,6 @@ func main() {
 
 	mainPgPool.SetMaxOpenConns(10)
 
-	mainDbQueries := maindb.New(mainPgPool)
-
 	// # Init first admin
 	err = initFirstAdmin(ctx, config, mainPgPool)
 	if err != nil {
@@ -91,57 +90,16 @@ func main() {
 		log.Fatalf("Init first admin: %v\n", err)
 	}
 
-	transport, err := initRmq(ctx, config)
-	if err != nil {
-		log.Fatalf("Transport error: %v\n", err)
-	}
-
-	logger.Info("RMQ")
-
 	// # Deps
 	deps := &features.Deps{
-		Logger:        logger,
-		MainDb:        mainPgPool,
-		MainDbQueries: mainDbQueries,
+		Logger: logger,
+		MainDb: mainPgPool,
 		Config: features.Config{
 			JwtSecret:       []byte(config.JwtSecret),
 			ExpireInSeconds: config.JwtExpireInSeconds,
 		},
-		RmqT: transport,
-	}
-
-	err = transport.SubscribeOnCall(
-		ctx,
-		&proto.SignInCallRequest{
-			Name: "SignIn",
-		},
-		func(ctx context.Context, requestBody []byte) ([]byte, terrors.Error) {
-			request := &proto.SignInCallRequest{}
-			jErr := json.Unmarshal(requestBody, request)
-			if jErr != nil {
-				return nil, terrors.NewPrivateError("failed to unmarshal request")
-			}
-
-			result, err := fsignin.SignIn(ctx, deps, request)
-			if err != nil {
-				return nil, err
-			}
-
-			response, jErr := json.Marshal(result)
-			if jErr != nil {
-				return nil, terrors.NewPrivateError("failed to marshal response")
-			}
-
-			if err != nil {
-				return nil, terrors.NewPrivateError("failed to marshal response")
-			}
-
-			return response, nil
-		},
-	)
-
-	if err != nil {
-		log.Fatal(err)
+		GlobalWg:                gwg,
+		GracefulShutdownEmitter: gse,
 	}
 
 	// # Server
@@ -150,7 +108,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	wg.Add(1)
+	gwg.Add(1)
 	go func() {
 		logger.Info(fmt.Sprintf("Starting gRPC Gateway on port %d", config.Port))
 		err := e.Start(fmt.Sprintf(":%d", config.Port))
@@ -160,10 +118,10 @@ func main() {
 			log.Fatal(err)
 		}
 
-		wg.Done()
+		gwg.Done()
 	}()
 
-	wg.Add(1)
+	gwg.Add(1)
 	go func() {
 		logger.Info(fmt.Sprintf("Starting gRPC Node on port %d", config.Port))
 		err := serveGrpc()
@@ -173,10 +131,10 @@ func main() {
 			log.Fatal(err)
 		}
 
-		wg.Done()
+		gwg.Done()
 	}()
 
-	wg.Add(1)
+	gwg.Add(1)
 	go func() {
 		logger.Info(fmt.Sprintf("Starting combined server on port %d", config.Port))
 		err := serveCmux()
@@ -186,25 +144,24 @@ func main() {
 			log.Fatal(err)
 		}
 
-		wg.Done()
+		gwg.Done()
 	}()
 
+	// # Graceful shutdown
 	go func() {
-		sig := <-sigs
-		wg.Add(1)
-		logger.Info(fmt.Sprintf("Received %s signal", sig))
+		reason := <-gse
+		gwg.Add(1)
+		logger.Info(fmt.Sprintf("Received %s signal", reason))
 		closeServer()
 		logger.Info("Server closed")
 		mainPgPool.Close()
 		logger.Info("mainPgPool closed")
-		transport.Close()
-		logger.Info("transport closed")
 		cancel()
 		logger.Info("ctx canceled")
-		wg.Done()
+		gwg.Done()
 	}()
 
 	logger.Info("Started")
-	wg.Wait()
+	gwg.Wait()
 	logger.Info("Bye")
 }

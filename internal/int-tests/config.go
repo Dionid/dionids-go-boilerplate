@@ -9,7 +9,6 @@ import (
 
 type TestConfig struct {
 	MainDbConnection string `mapstructure:"MAIN_DB_CONNECTION"`
-	RmqConnection    string `mapstructure:"RMQ_CONNECTION"`
 }
 
 func NewTestConfig() (*TestConfig, error) {

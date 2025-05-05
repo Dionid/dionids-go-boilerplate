@@ -1,8 +1,8 @@
 package features
 
 import (
-	"github.com/Dionid/go-boiler/dbs/maindb"
-	"github.com/Dionid/go-boiler/pkg/df"
+	"sync"
+
 	"github.com/jmoiron/sqlx"
 	"go.uber.org/zap"
 )
@@ -13,12 +13,11 @@ type Config struct {
 }
 
 type Deps struct {
-	Logger *zap.Logger
+	Logger                  *zap.Logger
+	GlobalWg                *sync.WaitGroup
+	GracefulShutdownEmitter chan string
 
-	MainDb        *sqlx.DB
-	MainDbQueries *maindb.Queries
+	MainDb *sqlx.DB
 
 	Config Config
-
-	RmqT *df.RmqTransport
 }
