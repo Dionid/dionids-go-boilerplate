@@ -2,10 +2,9 @@
 
 # Prerequisites
 
-1. Rename `go-boiler` in `go.mod`, `proto/go-boiler`, and `PROJECT_NAME` in `Makefile`
-to `your_project_name`
-1. Rename `cmd/your_project_name` to name of your app
-1. Create `cmd/your_project_name/app.env` from `cmd/your_project_name/app.env.example`
+1. Rename `go-boiler` to `your_project_name` in `go.mod`, `proto/go-boiler`, `docker-compose.yaml` and `PROJECT_NAME` in `Makefile`
+1. Rename `cmd/core` to `cmd/${your_project_name}`
+1. Create `cmd/${your_project_name}/app.env` from `cmd/${your_project_name}/app.env.example`
 1. Create `.env` from `.env.example`
 1. Create `internal/int-tests/test.env` from `internal/int-tests/test.env.example`
 1. `make setup`
@@ -13,20 +12,20 @@ to `your_project_name`
 
 # Whats inside
 
-1. FOP
+1. API
+    1. Protobuf
+    1. gRPC
+    1. gRPC to HTTP Gateway
+    1. gRPC to Swagger
 1. DB
     1. Fully typed-safe SQL on [sqli](https://github.com/Dionid/sqli)
     1. Migrations
     1. Introspection
-1. Protobuf
-1. Error handling with terrors
-1. Benchmarks
-1. Migrations
-1. Integration tests
-1. PG pool
-1. gRPC
+    1. PG
+1. [FOP](https://fop.davidshekunts.com)
+1. Error handling with [terrors](./pkg/terrors)
+1. Unit & Integration tests
 1. Graceful-shutdown
-1. Swagger
 1. pre-commit
 
 # Stack
@@ -35,7 +34,6 @@ to `your_project_name`
     1. sqli
 1. Transport
     1. protobuf
-    1. amqp091-go
     1. echo
     1. grpc
 1. Utils
@@ -44,7 +42,7 @@ to `your_project_name`
     1. uuid
     1. crypto
 1. Development
-    1. go 1.21.6
+    1. go (1.24.2)
     1. golangci
     1. docker
     1. testify
@@ -54,7 +52,7 @@ to `your_project_name`
 1. `/api` – compiled protobuf files
 1. `/bench` – benchmarks
 1. `/cmd` – applications
-1. `/dbs` – databases (migrations, fixtures, introspection)
+1. `/dbs` – databases (migrations, fixtures, introspection, models)
 1. `/docker` – files for docker setup
 1. `/features` – business logic
 1. `/for-setup` – golang setup files
@@ -101,11 +99,11 @@ to `your_project_name`
 
 ## FOP
 
-https://fop.davidshekunts.ru/
+https://fop.davidshekunts.com
 
 ## FDD
 
-https://fdd.davidshekunts.ru/
+https://fdd.davidshekunts.com
 
 ## DF
 

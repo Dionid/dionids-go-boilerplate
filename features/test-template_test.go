@@ -44,7 +44,6 @@ func TestIntTemplate(t *testing.T) {
 		gse,
 		testDeps.MainDbConnection,
 		testDeps.FeaturesConfig,
-		testDeps.RmqTransport,
 	}
 
 	// # WRITE YOUR TEST HERE

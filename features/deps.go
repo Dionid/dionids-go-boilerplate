@@ -3,7 +3,6 @@ package features
 import (
 	"sync"
 
-	"github.com/Dionid/go-boiler/pkg/df"
 	"github.com/jmoiron/sqlx"
 	"go.uber.org/zap"
 )
@@ -21,6 +20,4 @@ type Deps struct {
 	MainDb *sqlx.DB
 
 	Config Config
-
-	RmqT *df.RmqTransport
 }

@@ -14,13 +14,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: go-boiler-main-db
-    networks:
-      - some-net
 
 volumes:
-  rabbitmq_data:
   main-db-data:
-
-networks:
-  some-net:
-    driver: bridge

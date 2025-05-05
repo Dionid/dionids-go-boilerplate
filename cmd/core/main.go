@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,12 +11,10 @@ import (
 	"sync"
 	"syscall"
 
-	"github.com/Dionid/go-boiler/api/v1/go/proto"
 	_ "github.com/bufbuild/protovalidate-go"
 	_ "github.com/lib/pq"
 
 	"github.com/Dionid/go-boiler/features"
-	fsignin "github.com/Dionid/go-boiler/features/sign-in"
 	"github.com/Dionid/go-boiler/pkg/terrors"
 	"github.com/jmoiron/sqlx"
 	"go.uber.org/zap"
@@ -93,13 +90,6 @@ func main() {
 		log.Fatalf("Init first admin: %v\n", err)
 	}
 
-	transport, err := initRmq(ctx, config)
-	if err != nil {
-		log.Fatalf("Transport error: %v\n", err)
-	}
-
-	logger.Info("RMQ")
-
 	// # Deps
 	deps := &features.Deps{
 		Logger: logger,
@@ -108,43 +98,8 @@ func main() {
 			JwtSecret:       []byte(config.JwtSecret),
 			ExpireInSeconds: config.JwtExpireInSeconds,
 		},
-		RmqT:                    transport,
 		GlobalWg:                gwg,
 		GracefulShutdownEmitter: gse,
-	}
-
-	err = transport.SubscribeOnCall(
-		ctx,
-		&proto.SignInCallRequest{
-			Name: "SignIn",
-		},
-		func(ctx context.Context, requestBody []byte) ([]byte, terrors.Error) {
-			request := &proto.SignInCallRequest{}
-			jErr := json.Unmarshal(requestBody, request)
-			if jErr != nil {
-				return nil, terrors.NewPrivateError("failed to unmarshal request")
-			}
-
-			result, err := fsignin.SignIn(ctx, deps, request)
-			if err != nil {
-				return nil, err
-			}
-
-			response, jErr := json.Marshal(result)
-			if jErr != nil {
-				return nil, terrors.NewPrivateError("failed to marshal response")
-			}
-
-			if err != nil {
-				return nil, terrors.NewPrivateError("failed to marshal response")
-			}
-
-			return response, nil
-		},
-	)
-
-	if err != nil {
-		log.Fatal(err)
 	}
 
 	// # Server
@@ -201,8 +156,6 @@ func main() {
 		logger.Info("Server closed")
 		mainPgPool.Close()
 		logger.Info("mainPgPool closed")
-		transport.Close()
-		logger.Info("transport closed")
 		cancel()
 		logger.Info("ctx canceled")
 		gwg.Done()

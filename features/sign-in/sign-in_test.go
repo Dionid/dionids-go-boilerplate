@@ -38,7 +38,6 @@ func TestIntSignIn(t *testing.T) {
 			Logger: testDeps.Logger,
 			MainDb: testDeps.MainDbConnection,
 			Config: testDeps.FeaturesConfig,
-			RmqT:   testDeps.RmqTransport,
 		}
 
 		request := &proto.SignInCallRequest{

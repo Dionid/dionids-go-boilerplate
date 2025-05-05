@@ -22,8 +22,6 @@ type Config struct {
 
 	JwtSecret          string `mapstructure:"JWT_SECRET"`
 	JwtExpireInSeconds int64  `mapstructure:"JWT_EXPIRE_IN_SECONDS"`
-
-	RmqConnectionString string `mapstructure:"RMQ_CONNECTION_STRING"`
 }
 
 // Call to load the variables from env

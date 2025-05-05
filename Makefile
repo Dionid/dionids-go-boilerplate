@@ -72,7 +72,6 @@ test-unit:
 test-int-prepare:
 	docker-compose -f docker-compose.tests.yaml up -d
 	docker logs main-db-postgres-test 2>&1 | grep -q "database system is ready to accept connections"
-	docker logs rmq-test 2>&1 | grep -q "Server startup complete"
 	make migrate-maindb-test-reup
 
 test-int:
