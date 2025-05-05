@@ -2,9 +2,9 @@
 
 # Prerequisites
 
-1. Rename `go-boiler` to `your_project_name` in `go.mod`, `proto/go-boiler`, `docker-compose.yaml` and `PROJECT_NAME` in `Makefile`
-1. Rename `cmd/core` to `cmd/${your_project_name}`
-1. Create `cmd/${your_project_name}/app.env` from `cmd/${your_project_name}/app.env.example`
+1. Rename `go-boiler` to `your_app_name` in `go.mod`, `proto/go-boiler`, `docker-compose.yaml` and `PROJECT_NAME` in `Makefile`
+1. Rename `cmd/core` to `cmd/${your_app_name}`
+1. Create `cmd/${your_app_name}/app.env` from `cmd/${your_app_name}/app.env.example`
 1. Create `.env` from `.env.example`
 1. Create `internal/int-tests/test.env` from `internal/int-tests/test.env.example`
 1. `make setup`
@@ -32,11 +32,12 @@
 # Stack
 
 1. DB
-    1. sqli
+    1. [sqli](https://github.com/Dionid/sqli)
 1. Transport
     1. protobuf
     1. echo
     1. grpc
+    1. cmux
 1. Utils
     1. zap
     1. jwt
@@ -74,7 +75,7 @@
 1. Run `make generate-protobuf`
 1. Add file `features/${feature_name}/${feature_name}.go`
 1. Write business logic in it
-1. Add method to `cmd/core/http/grpc.go`
+1. Add method to `cmd/${your_app_name}$/http/grpc.go`
 1. Run `make run`
 
 # How to create Feature integration tests
